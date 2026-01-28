@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.DS_Store
+part2-notes-frontend/*
 
 # Editor directories and files
 .vscode/*
