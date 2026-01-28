@@ -14,6 +14,11 @@
       "name": "Mike Dumbo",
       "number": "555 6556",
       "id": 7
+    },
+    {
+      "name": "Hanns Haustein",
+      "number": "+49 163 6384248",
+      "id": 8
     }
   ]
 }

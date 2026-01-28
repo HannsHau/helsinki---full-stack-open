@@ -24,15 +24,23 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
 
-    const personFound = persons.filter( person => person.name === newName)
+    const personFound = persons.find(person => person.name === newName)
+    console.log(personFound)
 
-    if (personFound.length > 0) {
-      alert(newName + ' is already added to phonebook')
+    const personsObject = {
+      name: newName,
+      number: newNumber
+    }
+
+    if (personFound !== undefined) {
+      personsObject.id = personFound.id
+      confirm(`${personFound.name} is already added to phonebook, replace the old number with a new one?`)
+      personsService
+        .update(personsObject)
+        .then((returnedPerson) => {
+          setPersons(persons.map(person => person.id === personFound.id ? returnedPerson : person))
+        })
     } else {
-      const personsObject = {
-        name: newName,
-        number: newNumber
-      }
       personsService
         .create(personsObject)
         .then((returnedPerson) => {
