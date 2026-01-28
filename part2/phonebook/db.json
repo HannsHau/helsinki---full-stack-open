@@ -1,24 +1,9 @@
 {
   "persons": [
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Mike Pence",
-      "number": "555 5678555",
-      "id": 6
-    },
-    {
-      "name": "Mike Dumbo",
-      "number": "555 6556",
-      "id": 7
-    },
-    {
-      "name": "Sonia Pereira Martins",
-      "number": "+49 231 5307874",
-      "id": 9
+      "number": "+231 54574",
+      "id": 1
     }
   ]
 }

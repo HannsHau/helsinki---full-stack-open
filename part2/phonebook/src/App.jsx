@@ -14,16 +14,20 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [notification, setNotification] = useState(null)
 
-  useEffect(() => {
+  const fetchPersons = () => {
     personsService
       .getAll()
       .then((initialPersons) => {
         setPersons(initialPersons)
       })
+  }
+
+  useEffect(() => {
+    fetchPersons()
   }, [])
   
-  const prepareNotification = (text) => {
-    setNotification(text)
+  const prepareNotification = (text, error) => {
+    setNotification({text: text, error: error})
     setTimeout(() => setNotification(null), 3000)
   }
 
@@ -40,18 +44,23 @@ const App = () => {
 
     if (personFound !== undefined) {
       personsObject.id = personFound.id
-      confirm(`${personFound.name} is already added to phonebook, replace the old number with a new one?`)
-      personsService
-        .update(personsObject)
-        .then((returnedPerson) => {
-          prepareNotification(`Number of ${personFound.name} is updated`)
-          setPersons(persons.map(person => person.id === personFound.id ? returnedPerson : person))
-        })
+      if (confirm(`${personFound.name} is already added to phonebook, replace the old number with a new one?`)) {
+        personsService
+          .update(personsObject)
+          .then((returnedPerson) => {
+            prepareNotification(`Number of ${personFound.name} is updated`, false)
+            setPersons(persons.map(person => person.id === personFound.id ? returnedPerson : person))
+          })
+          .catch(() => {
+            prepareNotification(`${personFound.name} was already removed from the server`, true)
+            fetchPersons()
+          })
+      }
     } else {
       personsService
         .create(personsObject)
         .then((returnedPerson) => {
-          prepareNotification(`Added ${returnedPerson.name}`)
+          prepareNotification(`Added ${returnedPerson.name}`, false)
           setPersons(persons.concat(returnedPerson))
         })
     }
@@ -65,7 +74,7 @@ const App = () => {
     personsService
       .deletePerson(id)
       .then(() => {
-        prepareNotification(`${person.name} is deleted`)
+        prepareNotification(`${person.name} is deleted`, false)
         setPersons(persons.filter(person => person.id !== id))
       })
   }
@@ -84,8 +93,10 @@ const App = () => {
   }
 
   const handleDelete = (person) => {
-    confirm(`Delete ${person.name}?`)
-    deletePerson(person.id)
+    if (confirm(`Delete ${person.name}?`)) {
+      deletePerson(person.id)
+    }
+
   }
 
   const personsToShow = filter.length > 0 
