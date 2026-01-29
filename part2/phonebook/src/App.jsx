@@ -35,7 +35,6 @@ const App = () => {
     event.preventDefault()
 
     const personFound = persons.find(person => person.name === newName)
-    console.log(personFound)
 
     const personsObject = {
       name: newName,
