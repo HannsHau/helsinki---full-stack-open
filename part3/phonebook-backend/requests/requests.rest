@@ -1,0 +1,6 @@
+
+### get all persons
+GET http://localhost:3001/api/persons
+
+### delete one person
+DELETE http://localhost:3001/api/persons/4
