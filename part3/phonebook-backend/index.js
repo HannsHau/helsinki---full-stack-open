@@ -41,15 +41,15 @@ app.get('/info', (request, response) => {
 
 })
 
-// app.get('/api/persons/5', (request, response) => {
-//   const id = request.params.id
-//   const note = notes.find(note => note.id === id)
-//   if (note) {
-//     response.json(note)
-//   } else {
-//     response.status(404).end()
-//   }
-// })
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const person = persons.find(person => person.id === id)
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
+})
 
 // app.delete('/api/notes/:id', (request, response) => {
 //   const id = request.params.id
