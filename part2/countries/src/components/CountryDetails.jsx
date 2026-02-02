@@ -41,7 +41,7 @@ const CountryDetail = ({country, countryDetails, weather}) => {
     <li>{lat} N {lon} E </li><br></br>
     <li>Temperature: {temperature} Celsius</li>
     <img src={iconUrl} alt='weather icon' ></img>
-    <li>Wind: {temperature} m/s</li>
+    <li>Wind: {wind} m/s</li>
     </>
   )
 }
