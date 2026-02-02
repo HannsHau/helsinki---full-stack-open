@@ -26,10 +26,6 @@ let persons = [
     }
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!__</h1>')
-})
-
 app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
@@ -64,24 +60,26 @@ const generateId = () => {
   return String(genId)
 }
 
-
 app.post('/api/persons', (request, response) => {
   // console.log(request.headers)
+  // console.log(request.body)
   const body = request.body
 
-// {
-//   "id": "3",
-//   "name": "Dan Abramov",
-//   "number": "12-43-234345"
-// }
+  if (!body.name) {
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })
+  } else if (!body.number) {
+    return response.status(400).json({ 
+      error: 'number missing' 
+    })
+  }
 
-  console.log(body)
-
-  // if (!body.content) {
-  //   return response.status(400).json({ 
-  //     error: 'content missing' 
-  //   })
-  // }
+  if (persons.find(person => person.name === body.name)) {
+    return response.status(400).json({ 
+      error: 'name already exists, must be unique' 
+    })
+  }
 
   const person = {
     id: generateId(),
