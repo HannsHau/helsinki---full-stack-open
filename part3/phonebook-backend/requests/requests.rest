@@ -4,3 +4,12 @@ GET http://localhost:3001/api/persons
 
 ### delete one person
 DELETE http://localhost:3001/api/persons/4
+
+### add a person
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Uschi Kahl (Ukermark)",
+  "number": "555-5678-666"
+}
