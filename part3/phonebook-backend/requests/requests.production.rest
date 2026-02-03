@@ -1,0 +1,15 @@
+
+### get all persons
+GET https://phonebook-backend-polished-dream-3083.fly.dev/api/persons
+
+### delete one person
+DELETE https://phonebook-backend-polished-dream-3083.fly.dev/api/persons/4
+
+### add a person
+POST https://phonebook-backend-polished-dream-3083.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "Uschi Kahl (Ukermark)",
+  "number": "555-5678-666"
+}
