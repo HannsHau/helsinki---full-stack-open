@@ -1,0 +1,19 @@
+{
+  "persons": [
+    {
+      "name": "Mike Pence",
+      "number": "+231 54574",
+      "id": 1
+    },
+    {
+      "name": "Sonia",
+      "number": "+231 55665565",
+      "id": 2
+    },
+    {
+      "name": "Sumalia",
+      "number": "+555 8989887",
+      "id": 3
+    }
+  ]
+}
