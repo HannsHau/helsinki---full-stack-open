@@ -17,7 +17,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :i
 
 
 app.get('/api/persons', (request, response) => {
-  // response.json(persons)
+    // response.json(persons)
   Person.find({}).then(notes => {
     response.json(notes)
   })
@@ -30,6 +30,17 @@ app.get('/info', (request, response) => {
 
 })
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  console.log('id:', id)
+  // persons = persons.filter(person => person.id !== id)
+
+  // response.status(204).end()
+  Person.findById(request.params.id).then(person => {
+    response.json(person)
+  })
+})
+
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
   console.log('id:', id)
@@ -37,21 +48,6 @@ app.delete('/api/persons/:id', (request, response) => {
 
   response.status(204).end()
 })
-
-app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
-})
-
-const generateId = () => {
-  const genId = Math.floor(Math.random() * 1_000_000_000)
-  return String(genId)
-}
 
 app.post('/api/persons', (request, response) => {
   // console.log(request.headers)
@@ -68,21 +64,22 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  if (persons.find(person => person.name === body.name)) {
-    return response.status(400).json({ 
-      error: 'name already exists, must be unique' 
-    })
-  }
-
-  const person = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  }
+  })
 
-  persons = persons.concat(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 
-  response.json(person)
+  // if (persons.find(person => person.name === body.name)) {
+  //   return response.status(400).json({ 
+  //     error: 'name already exists, must be unique' 
+  //   })
+  // }
+  // persons = persons.concat(person)
+  // response.json(person)
 })
 
 const PORT = process.env.PORT
