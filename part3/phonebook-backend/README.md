@@ -15,3 +15,7 @@ fly deploy
 fly scale show
 fly scale count 1
 fly apps open
+
+https://cloud.mongodb.com/v2/698315ab2461390cf171314b#/overview
+
+https://cloud.mongodb.com/v2/698315ab2461390cf171314b#/explorer/698315d5dd88158a52896185/phonebookApp/people/find
