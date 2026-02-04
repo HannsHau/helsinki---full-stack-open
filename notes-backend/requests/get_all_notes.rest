@@ -2,4 +2,4 @@
 GET http://localhost:3001/api/notes
 
 ### get just one note
-GET http://localhost:3001/api/notes/1
+GET http://localhost:3001/api/notes/69831b29d22d1aa09e10bae1
