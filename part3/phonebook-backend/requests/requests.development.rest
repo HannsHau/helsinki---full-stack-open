@@ -2,10 +2,10 @@
 GET http://localhost:3001/api/persons
 
 ###
-GET http://localhost:3001/api/persons/69836af7e45fa7694c3f6e85
+GET http://localhost:3001/api/persons/69835fbf80659c9a928fe1b5
 
 ### delete one person
-DELETE http://localhost:3001/api/persons/69836af7e45fa7694c3f6e85
+DELETE http://localhost:3001/api/persons/6983210a55c464ddcbb7f3b4
 
 ### add a person
 POST http://localhost:3001/api/persons
@@ -13,5 +13,5 @@ Content-Type: application/json
 
 {
   "name": "Uschi Kahl (Ukermark)",
-  "number": "555-5678-666"
+  "number": "123"
 }
