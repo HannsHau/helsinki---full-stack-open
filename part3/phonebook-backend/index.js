@@ -20,10 +20,14 @@ app.get('/api/persons', (request, response, next) => {
   .catch(error => next(error))
 })
 
-app.get('/info', (request, response) => {
-  const entries = persons.length
-  const time = new Date()
-  response.send(`<p>Phonebook has info for ${entries} people</p><p>${time.toString()}</p>`)
+app.get('/info', (request, response, next) => {
+  Person.find({}).then(people => {
+    // response.json(notes)
+    const entries = people.length
+    const time = new Date()
+    response.send(`<p>Phonebook has info for ${entries} people</p><p>${time.toString()}</p>`)
+  })
+  .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
