@@ -1,0 +1,25 @@
+### get all notes
+GET http://localhost:3001/api/notes
+
+### get just one note
+GET http://localhost:3001/api/notes/69831b29d22d1aa09e10bae1
+
+### add a new one
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Postman is good in testing backend_new", 
+    "important": true
+}
+
+### DELETE NOTE
+DELETE http://localhost:3001/api/notes/698372c45a525e6e6fbef8f9
+
+### update a existing
+PUT http://localhost:3001/api/notes/698372c45a525e6e6fbef8f9
+Content-Type: application/json
+
+{
+    "important": true
+}
