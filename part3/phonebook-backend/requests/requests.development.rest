@@ -15,3 +15,12 @@ Content-Type: application/json
   "name": "Uschi Kahl (Ukermark)",
   "number": "123"
 }
+
+### update a person
+PUT http://localhost:3001/api/persons/6983210a55c464ddcbb7f3b3
+Content-Type: application/json
+
+{
+  "name": "Mike's",
+  "number": "123456"
+}
