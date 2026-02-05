@@ -14,8 +14,8 @@ morgan.token('id', function getId (req) {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :id'))
 
 app.get('/api/persons', (request, response, next) => {
-  Person.find({}).then(notes => {
-    response.json(notes)
+  Person.find({}).then(people => {
+    response.json(people)
   })
   .catch(error => next(error))
 })
