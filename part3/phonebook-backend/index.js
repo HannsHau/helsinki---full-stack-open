@@ -17,7 +17,7 @@ app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(people => {
     response.json(people)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/info', (request, response, next) => {
@@ -27,23 +27,23 @@ app.get('/info', (request, response, next) => {
     const time = new Date()
     response.send(`<p>Phonebook has info for ${entries} people</p><p>${time.toString()}</p>`)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -59,8 +59,8 @@ app.post('/api/persons', (request, response, next) => {
 
   person.save().then(savedPerson => {
     response.json(savedPerson)
-  })  
-  .catch(error => next(error))
+  })
+    .catch(error => next(error))
 
 })
 
