@@ -52,12 +52,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
-  if (!body.name) {
-    return next('NameMissing')
-  } else if (!body.number) {
-    return next('NumberMissing')
-  }
-
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -91,30 +85,18 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 const errorHandler = (error, request, response, next) => {
 
-  console.log('Error: ', error)
-
-  console.log('Error.name: ', error.name)
   console.log('Error.message: ', error.message)
 
-  if (error === 'NameMissing') {
-    return response.status(400).send({ error: 'name missing' })
-  }
-  if (error === 'NumberMissing') {
-    return response.status(400).send({ error: 'Number is missing' })
-  } 
   if (error.name === 'ValidationError') {
-    console.log('ho')
     return response.status(400).send({error: error.message})
   }
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } 
-  console.log('hey')
 
   next(error)
 }
 
-// this has to be the last loaded middleware, also all the routes should be registered before this!
 app.use(errorHandler)
 
 const PORT = process.env.PORT

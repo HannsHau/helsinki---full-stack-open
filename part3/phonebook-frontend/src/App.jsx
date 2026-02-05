@@ -50,8 +50,8 @@ const App = () => {
             prepareNotification(`Number of ${personFound.name} is updated`, false)
             setPersons(persons.map(person => person.id === personFound.id ? returnedPerson : person))
           })
-          .catch(() => {
-            prepareNotification(`${personFound.name} was already removed from the server`, true)
+          .catch(error => {
+            prepareNotification(`Error ${error.response.data.error}`, true)
             fetchPersons()
           })
       }
