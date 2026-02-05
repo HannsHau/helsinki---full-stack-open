@@ -93,6 +93,8 @@ const errorHandler = (error, request, response, next) => {
 
   console.log('Error: ', error)
 
+  console.log('Error.name: ', error.name)
+  console.log('Error.message: ', error.message)
 
   if (error === 'NameMissing') {
     return response.status(400).send({ error: 'name missing' })
@@ -100,9 +102,14 @@ const errorHandler = (error, request, response, next) => {
   if (error === 'NumberMissing') {
     return response.status(400).send({ error: 'Number is missing' })
   } 
+  if (error.name === 'ValidationError') {
+    console.log('ho')
+    return response.status(400).send({error: error.message})
+  }
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } 
+  console.log('hey')
 
   next(error)
 }

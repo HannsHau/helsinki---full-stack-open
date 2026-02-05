@@ -62,6 +62,10 @@ const App = () => {
           prepareNotification(`Added ${returnedPerson.name}`, false)
           setPersons(persons.concat(returnedPerson))
         })
+        .catch(error => {
+          prepareNotification(`Error ${error.response.data.error}`, true)
+          console.log(error.response.data.error)
+        })
     }
 
     setNewName('')
