@@ -58,6 +58,31 @@ test('verify post of blog entry', async () => {
   assert(titels.includes('Böse Menschen, böse Lieder'))
 })
 
+test('verify that likes are set to 0 if not provided', async () => {
+  
+  const newBlog = {
+    title: "without any likes: title",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const isTitle = (blogs) => {
+    return blogs.title === "without any likes: title"
+  }
+
+  const foundBlog = blogsAtEnd.find(isTitle)
+
+  assert.strictEqual(foundBlog.likes, 0)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
