@@ -1,4 +1,5 @@
-const { test, after, beforeEach } = require('node:test')
+const _ = require('lodash')
+const { test, after, beforeEach, describe } = require('node:test')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const assert = require('node:assert')
@@ -120,6 +121,76 @@ test('succeeds with status code 204 if id is valid', async () => {
   assert(!ids.includes(blogToDelete.id))
 
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+})
+
+describe('update an post', () => {
+  test('update a blog, incresse the likes', async () => {
+
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = structuredClone(blogsAtStart[0]) // need to save the old struct before modification
+
+    blogToUpdate.likes += 1
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length )
+
+    const isTitle = (blogs) => {
+      return blogs.title === blogToUpdate.title
+    }
+
+    const foundBlog = blogsAtEnd.find(isTitle)
+
+    assert.strictEqual(foundBlog.likes, blogsAtStart[0].likes + 1)
+
+
+  })
+  test('update a blog, change URL', async () => {
+
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = structuredClone(blogsAtStart[0]) // need to save the old struct before modification
+
+    blogToUpdate.url = blogToUpdate.url.concat('_')
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length )
+
+    const isTitle = (blogs) => {
+      return blogs.title === blogToUpdate.title
+    }
+
+    const foundBlog = blogsAtEnd.find(isTitle)
+
+    assert.strictEqual(foundBlog.url, blogsAtStart[0].url.concat('_'))
+  })
+
+  test('update a blog, but it not anymore in the database', async () => {
+
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = structuredClone(blogsAtStart[0]) // need to save the old struct before modification
+
+    blogToUpdate.likes += 1
+    console.log(blogToUpdate.id)
+    blogToUpdate.id = '698b5384935710ce5d004270' //false id
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(404)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    
+    assert(_.isEqual(blogsAtEnd, blogsAtStart ))
+  })
 })
 
 after(async () => {
