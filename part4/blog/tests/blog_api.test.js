@@ -83,6 +83,30 @@ test('verify that likes are set to 0 if not provided', async () => {
   assert.strictEqual(foundBlog.likes, 0)
 })
 
+test('new blog needs title and url ', async () => {
+  const newBlogWithoutTitle = {
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+  }
+  const newBlogWithoutUrl = {
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlogWithoutTitle)
+    .expect(400)
+
+  await api
+    .post('/api/blogs')
+    .send(newBlogWithoutUrl)
+    .expect(400)
+  
+  assert(true)
+  
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
