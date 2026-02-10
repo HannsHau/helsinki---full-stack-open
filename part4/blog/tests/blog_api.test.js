@@ -27,6 +27,15 @@ test('all notes are returned', async () => {
   assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 
+test('unique identifier property is named id', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToView = blogsAtStart[0]
+
+  assert(Object.hasOwn(blogToView, "id"))
+  assert(!Object.hasOwn(blogToView, "_id"))
+
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
