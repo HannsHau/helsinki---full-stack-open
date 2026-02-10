@@ -36,6 +36,28 @@ test('unique identifier property is named id', async () => {
 
 })
 
+test('verify post of blog entry', async () => {
+  
+  const newBlog = {
+    title: "Böse Menschen, böse Lieder",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 3,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+  const titels = blogsAtEnd.map(n => n.title)
+  assert(titels.includes('Böse Menschen, böse Lieder'))
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
