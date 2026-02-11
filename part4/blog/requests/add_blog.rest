@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1lcnoiLCJpZCI6IjY5OGM0Nzc5YjA1ZjAzMTAwOTc5ZDk5ZCIsImlhdCI6MTc3MDgxODI5NSwiZXhwIjoxNzcwODE4MzE1fQ.ITkTpTc2sg2lbG_ib_di6fhHYmNkImMUg1YLfcuC_rE
 
 {
-  "title": "Bust and Burn",
-  "author": "Mickie Mouse",
-  "url": "http://bust.com",
-  "likes": 34
+  "title": "The fast and the furious",
+  "author": "Dr.Schnuggels",
+  "url": "http://ff.com",
+  "likes": 4
 }

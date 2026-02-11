@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "username": "merz",
-  "password": "12"
+  "password": "123"
 }
 
 #### hanns top-secret, merz 123
