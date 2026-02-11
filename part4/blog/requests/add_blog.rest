@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1lcnoiLCJpZCI6IjY5OGM0Nzc5YjA1ZjAzMTAwOTc5ZDk5ZCIsImlhdCI6MTc3MDgxODI5NSwiZXhwIjoxNzcwODE4MzE1fQ.ITkTpTc2sg2lbG_ib_di6fhHYmNkImMUg1YLfcuC_rE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imhhbm5zIiwiaWQiOiI2OThjNDc1NWIwNWYwMzEwMDk3OWQ5OWEiLCJpYXQiOjE3NzA4MjE4MTMsImV4cCI6MTc3MDgyMTg3M30.p32htLzxutPTLWXZecl_P1oiP27B_pJv4OhhMxd0fvE
 
 {
   "title": "The fast and the furious",
