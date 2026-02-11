@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "merz",
+    "name": "Bundeskanzler Fritze Merz",
+    "password": "123"
+}
+
+#### hanns top-secret, merz 123
