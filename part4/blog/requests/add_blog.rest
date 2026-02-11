@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Hey, Ho!",
-  "author": "Hip Hop"
-  # url
-  # likes
+  "title": "Bust and Burn",
+  "author": "Mickie Mouse",
+  "url": "http://bust.com",
+  "likes": 34
 }
