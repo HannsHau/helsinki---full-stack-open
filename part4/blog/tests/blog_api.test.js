@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const assert = require('node:assert')
 const app = require('../app')
-const helper = require('./test_helper')
+const helper = require('./blog_helper')
 const Blog = require('../models/blog')
 
 const api = supertest(app)
@@ -91,7 +91,7 @@ test('new blog needs title and url ', async () => {
   }
   const newBlogWithoutUrl = {
     author: "Michael Chan",
-    url: "https://reactpatterns.com/",
+    title: "Hello Fool",
   }
 
   await api
