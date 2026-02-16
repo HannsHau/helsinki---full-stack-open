@@ -33,7 +33,6 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
-
     }
   }, [])
 
@@ -72,6 +71,11 @@ const App = () => {
     setBlogs(blogs.concat(blog))
 
     prepareNotification(`a new blog ${blog.title} by ${blog.author} added`, false)
+  }
+
+  const modifyBlog = async (blogObject) => {
+    const newBlog = await blogService.update(blogObject)
+    setBlogs(blogs.map(blog => blog.id === newBlog.id ? newBlog : blog ) )
   }
 
   if (user === null) {
@@ -117,7 +121,7 @@ const App = () => {
         </AddBlog>
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} changeBlog={modifyBlog} />
       )}
     </div>
   )

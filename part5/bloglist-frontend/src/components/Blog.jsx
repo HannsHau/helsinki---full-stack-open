@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, changeBlog }) => {
   const [details, setDetails] = useState(false)
 
   const blogStyle = {
@@ -19,11 +19,17 @@ const Blog = ({ blog }) => {
     return (`${blog.title} ${blog.author}`)
   }
 
+  const addLike = async () => {
+    blog.likes += 1
+    changeBlog(blog)
+
+  }
+
   const detailsView = () => {
     return (<div>
     <li>{blog.url}</li>
-    <li>likes: {blog.likes}</li>
-    <li>{blog.author}</li>
+    <li>likes: {blog.likes}<button onClick={addLike}>like</button></li>
+    <li>{blog.user.name}</li>
     </div>)}
 
   return (
