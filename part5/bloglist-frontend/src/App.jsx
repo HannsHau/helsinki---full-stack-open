@@ -74,7 +74,9 @@ const App = () => {
   }
 
   const modifyBlog = async (blogObject) => {
+    const oldBlog = blogs.find(blog => blog.id === blogObject.id)
     const newBlog = await blogService.update(blogObject)
+    newBlog.user = oldBlog.user
     setBlogs(blogs.map(blog => blog.id === newBlog.id ? newBlog : blog ) )
   }
 
