@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import Notification from './components/Notification'
 import loginService from './services/login'
 
 const App = () => {
@@ -11,6 +12,12 @@ const App = () => {
   const [author, setAuthor] = useState('') 
   const [url, setUrl] = useState('') 
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
+
+  const prepareNotification = (text, error) => {
+    setNotification({text: text, error: error})
+    setTimeout(() => setNotification(null), 3000)
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -43,6 +50,7 @@ const App = () => {
       setPassword('')
       console.log('Login successful: ', user)
     } catch {
+      prepareNotification('wrong username or password', true)
       console.log('Login failed: ', user)
     }
   }
@@ -63,13 +71,16 @@ const App = () => {
     setTitle('')
     setAuthor('')
     setUrl('')
+
+    prepareNotification(`a new blog ${blog.title} by ${blog.author} added`, false)
   
   }
 
   if (user === null) {
     return (
       <div>
-        <h2>Log in to application</h2>
+        <h2>log in to application</h2>
+        <Notification notification={notification} />
         <form onSubmit={handleLogin}>
           <div>
             <label>
@@ -100,6 +111,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification} />
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
       <h2>create new</h2>
       <form onSubmit={handleNew}>
