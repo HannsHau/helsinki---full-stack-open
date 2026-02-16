@@ -112,6 +112,11 @@ const App = () => {
     )
   }
 
+  const cmpFn = (a, b) => {
+    console.log(`a: ${a.author}_${a.likes}, b: ${b.author}_${b.likes}`)
+    return (b.likes - a.likes )
+  }
+
   return (
     <div>
       <h2>blogs</h2>
@@ -122,7 +127,7 @@ const App = () => {
         <AddBlog createBlog={handleNew}>
         </AddBlog>
       </Togglable>
-      {blogs.map(blog =>
+      {[...blogs].sort(cmpFn).map(blog =>
         <Blog key={blog.id} blog={blog} changeBlog={modifyBlog} />
       )}
     </div>
