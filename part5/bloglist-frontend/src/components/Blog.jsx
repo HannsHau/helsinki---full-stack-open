@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-const Blog = ({ blog, user, changeBlog, removeBlog}) => {
+const Blog = ({ blog, user, changeBlog, removeBlog }) => {
   const [details, setDetails] = useState(false)
 
   const blogStyle = {
@@ -42,18 +42,20 @@ const Blog = ({ blog, user, changeBlog, removeBlog}) => {
 
   const detailsView = () => {
     return (<div>
-    <li>{blog.url}</li>
-    <li>likes: {blog.likes}<button onClick={addLike}>like</button></li>
-    <li>{blog.user.name}</li>
-    <button onClick={handleRemoveBlog} style={buttonRemove}>remove</button>
-    </div>)}
+      <li>{blog.url}</li>
+      <li>likes: {blog.likes}<button onClick={addLike}>like</button></li>
+      <li>{blog.user.name}</li>
+      <button onClick={handleRemoveBlog} style={buttonRemove}>remove</button>
+    </div>)
+  }
 
   return (
-  <div style={blogStyle}>
-    {normalView()}
-    <button onClick={toggleState} >{details?'hide':'view'}</button>
-    {details?detailsView():''}
-  </div>  
-)}
+    <div style={blogStyle}>
+      {normalView()}
+      <button onClick={toggleState} >{details?'hide':'view'}</button>
+      {details?detailsView():''}
+    </div>
+  )
+}
 
 export default Blog

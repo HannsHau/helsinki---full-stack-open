@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import AddBlog from './components/AddBlog'
 import blogService from './services/blogs'
@@ -8,8 +8,8 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
@@ -17,15 +17,14 @@ const App = () => {
   const addBlogRef = useRef()
 
   const prepareNotification = (text, error) => {
-    setNotification({text: text, error: error})
+    setNotification( { text: text, error: error } )
     setTimeout(() => setNotification(null), 3000)
   }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
-  }, [])
+    ) }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -45,7 +44,7 @@ const App = () => {
 
       window.localStorage.setItem(
         'loggedBlogUser', JSON.stringify(user)
-      ) 
+      )
       setUser(user)
       setUsername('')
       setPassword('')
