@@ -70,7 +70,7 @@ describe('<Blog />', () => {
     const button = screen.getByText('view')
     await user.click(button)
 
-    screen.debug()
+    // screen.debug()
 
     const newUrl = screen.getByText('www.popo.de')
     expect(newUrl).toBeDefined()

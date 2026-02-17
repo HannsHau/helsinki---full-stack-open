@@ -1,30 +1,29 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-const AddBlog = ({ createBlog }) => { 
+const AddBlog = ({ createBlog }) => {
 
-  const [title, setTitle] = useState('') 
-  const [author, setAuthor] = useState('') 
-  const [url, setUrl] = useState('') 
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
 
   const handleNew = async (event) => {
     event.preventDefault()
 
-    const newBlog = {title, author, url}
+    const newBlog = { title, author, url }
 
     createBlog(newBlog)
 
     setTitle('')
     setAuthor('')
     setUrl('')
-  
   }
 
-  return (  
+  return (
     <form onSubmit={handleNew}>
       <div>
         <label>
-          title: 
+          title:
           <input
             type="text"
             value={title}
@@ -34,7 +33,7 @@ const AddBlog = ({ createBlog }) => {
       </div>
       <div>
         <label>
-          author: 
+          author:
           <input
             type="text"
             value={author}
@@ -44,7 +43,7 @@ const AddBlog = ({ createBlog }) => {
       </div>
       <div>
         <label>
-          url: 
+          url:
           <input
             type="text"
             value={url}
