@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
-import { beforeEach } from 'vitest'
+import { vi, beforeEach } from 'vitest'
 
 describe('<Blog />', () => {
 
@@ -18,12 +18,14 @@ describe('<Blog />', () => {
   //   }
   // })
 
+  let mockHandler
+
   beforeEach(() => {
-  
+
     const blog = {
       title: 'Bahamas!!!',
-      author: 'DJ Bobo', 
-      user: {username: 'Merz'},
+      author: 'DJ Bobo',
+      user: { username: 'Merz' },
       url: 'www.popo.de',
       likes: 3
     }
@@ -32,7 +34,9 @@ describe('<Blog />', () => {
       username: 'No, No'
     }
 
-    render(<Blog blog={blog} user={dummyUser}/>)
+    mockHandler = vi.fn()
+
+    render(<Blog blog={blog} user={dummyUser} changeBlog={mockHandler}/>)
 
   })
 
@@ -73,6 +77,20 @@ describe('<Blog />', () => {
 
     const newLikes = screen.getByText('likes: 3')
     expect(newLikes).toBeDefined()
+
+  })
+
+  test('likes button twice', async () => {
+
+    const user = userEvent.setup()
+    const viewButton = screen.getByText('view')
+    await user.click(viewButton)
+
+    const likeButton = screen.getByText('like')
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
 
   })
 
