@@ -80,6 +80,17 @@ const App = () => {
     setBlogs(blogs.map(blog => blog.id === newBlog.id ? newBlog : blog ) )
   }
 
+  const removeBlog = async (blogObject) => {
+
+    try {
+      await blogService.deleteBlog(blogObject)
+      setBlogs(blogs => blogs.filter(blog => blog.id !== blogObject.id))
+
+    } catch (err) {
+      prepareNotification(err.response.data.error, true)
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -128,7 +139,7 @@ const App = () => {
         </AddBlog>
       </Togglable>
       {[...blogs].sort(cmpFn).map(blog =>
-        <Blog key={blog.id} blog={blog} changeBlog={modifyBlog} />
+        <Blog key={blog.id} blog={blog} user={user} changeBlog={modifyBlog} removeBlog={removeBlog} />
       )}
     </div>
   )
