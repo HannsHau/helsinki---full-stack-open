@@ -11,7 +11,10 @@ const Blog = ({ blog, user, changeBlog, removeBlog }) => {
     marginBottom: 5
   }
 
-  const userIsAuthor = blog.user.username === user.username
+  const userIsAuthor = () => {
+    if ( blog === null || blog.username === null || user === null ) { return false }
+    return (blog.user.username === user.username)
+  }
 
   const buttonRemove = {
     borderRadius: '5px',
