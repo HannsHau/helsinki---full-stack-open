@@ -43,25 +43,31 @@ describe('Blog app', () => {
   describe('When logged in', () => {
     beforeEach(async ({ page }) => {
       await loginWith(page, 'bugs', 'top-secret')
+      await createBlog(page, 'new blog entry', 'Little John', 'www.go-home.com')
     })
 
     test('a new blog can be created', async ({ page }) => {
-
-      await createBlog(page, 'new blog entry', 'Little John', 'www.go-home.com')
-
       await expect(page.getByText('new blog entry Little John')).toBeVisible()
-
     })
 
     test('like a blog', async ({page}) => {
-
-      await createBlog(page, 'new blog entry', 'Little John', 'www.go-home.com')
-
       await page.getByRole('button', { name: 'view' }).click()
       await page.getByRole('button', { name: 'like' }).click()
       await expect(page.getByText('likes: 1')).toBeVisible()
+    })
 
-      
-    } )
+    test('user can delete a created blog', async ({page}) => {
+
+      const entry = page.getByText('new blog entry Little John')
+
+      await expect(entry).toHaveCount(1);
+
+      await page.getByRole('button', { name: 'view' }).click()
+      await page.on('dialog', dialog => dialog.accept());
+      await page.getByRole('button', { name: 'remove' }).click()
+
+      await expect(entry).toHaveCount(0);
+
+    })
   })
 })
