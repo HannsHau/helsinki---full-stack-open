@@ -39,4 +39,28 @@ describe('Blog app', () => {
       await expect(page.getByText('Bugs Bunny logged in')).not.toBeVisible()
     })
   })
+
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'bugs', 'top-secret')
+    })
+
+    test('a new blog can be created', async ({ page }) => {
+
+      await page.getByRole('button', { name: 'create new blog' }).click()
+
+      await expect(page.getByRole('textbox', { name: 'title' })).toBeVisible()
+      await page.getByRole('textbox', { name: 'title' }).fill('new blog entry')
+
+      await expect(page.getByRole('textbox', { name: 'author' })).toBeVisible()
+      await page.getByRole('textbox', { name: 'author' }).fill('Little John')
+
+      await expect(page.getByRole('textbox', { name: 'url' })).toBeVisible()
+      await page.getByRole('textbox', { name: 'url' }).fill('www.go-home.com')
+
+      await page.getByRole('button', { name: 'create' }).click()
+      await expect(page.getByText('new blog entry Little John')).toBeVisible()
+
+    })
+  })
 })
