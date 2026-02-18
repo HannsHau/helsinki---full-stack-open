@@ -8,3 +8,22 @@ Content-Type: application/json
 }
 
 #### hanns top-secret, merz 123
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "bugs",
+    "name": "Bugs Bunny",
+    "password": "top-secret"
+}
+
+#### Bugs
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "duffy",
+    "name": "Duffy Duck",
+    "password": "top-secret"
+}
+#### Duffy
