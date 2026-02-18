@@ -11,6 +11,13 @@ describe('Blog app', () => {
         password: 'top-secret'
       }
     })
+    await request.post('/api/users', {
+      data: {
+        name: 'Duffy Duck',
+        username: 'duffy',
+        password: 'top-secret'
+      }
+    })
     await page.goto('/')
   })
 
@@ -69,5 +76,23 @@ describe('Blog app', () => {
       await expect(entry).toHaveCount(0);
 
     })
+  })
+
+  describe('Blog created by different user', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'bugs', 'top-secret')
+      await createBlog(page, 'new blog entry', 'Little John', 'www.go-home.com')
+      await page.getByRole('button', { name: 'logout' }).click()
+      await loginWith(page, 'duffy', 'top-secret')
+    })
+
+    test('should not find the delete button', async ({ page }) => {
+      await page.getByRole('button', { name: 'view' }).click()
+      await expect(page.getByText('new blog entry Little John')).toBeVisible()
+
+      await expect(page.getByText('remove')).not.toBeVisible()
+
+    })
+
   })
 })

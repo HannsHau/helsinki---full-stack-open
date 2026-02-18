@@ -19,7 +19,7 @@ const Blog = ({ blog, user, changeBlog, removeBlog }) => {
   const buttonRemove = {
     borderRadius: '5px',
     backgroundColor: 'blue',
-    display: userIsAuthor ? '' : 'none'
+    display: userIsAuthor() ? '' : 'none'
   }
 
   const toggleState = () => {
