@@ -19,6 +19,22 @@ const createBlog = async (page, title, author, url) => {
   await page.getByRole('textbox', { name: 'url' }).fill(url)
 
   await page.getByRole('button', { name: 'create' }).click()
+  await page.getByText(title + ' ' + author).waitFor()
 }
 
-export { loginWith , createBlog}
+const createBlogWithLikes = async (page, title, author, url, likes) => {
+  
+  await createBlog(page, title, author, url)
+  const entry = page.getByText(title + ' ' + author)
+
+  await entry.getByRole('button', { name: 'view' }).click()
+
+  for (let i = 0; i < likes; i++) {
+    await entry.getByRole('button', { name: 'like' }).click()
+  }
+
+  await expect(entry.getByText('likes: ' + likes)).toBeVisible()
+
+}
+
+export { loginWith , createBlog, createBlogWithLikes}

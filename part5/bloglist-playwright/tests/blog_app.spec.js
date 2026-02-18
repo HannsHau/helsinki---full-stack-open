@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith, createBlog } = require('./helper')
+const { loginWith, createBlog, createBlogWithLikes } = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -93,6 +93,42 @@ describe('Blog app', () => {
       await expect(page.getByText('remove')).not.toBeVisible()
 
     })
+
+  })
+
+  describe('test the sorting of blogs', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'bugs', 'top-secret')
+
+    })
+
+    test('like a blog twice', async ({ page }) => {
+      await createBlogWithLikes(page, 'new blog entry', 'Little John', 'www.go-home.com', 2)
+      await expect(page.getByText('likes: 2')).toBeVisible()
+
+    })
+
+    test.only('create 3 blogs, in right order', async ({ page }) => {
+      await createBlogWithLikes(page, 'the middleclass', 'Little John', 'www.amazon.com', 2)
+      await expect(page.getByText('likes: 2')).toBeVisible()
+  
+      await createBlogWithLikes(page, 'low performer', 'Little John', 'www.go-home.com', 1)
+      await expect(page.getByText('likes: 1')).toBeVisible()
+
+      await createBlogWithLikes(page, 'the favourite', 'Mahonie', 'www.best.com', 3)
+      await expect(page.getByText('likes: 3')).toBeVisible()
+
+      const likesList = page.getByText('likes: ')
+      await expect(likesList).toHaveCount(3);
+
+      await expect(likesList.nth(0)).toContainText('likes: 3');
+      await expect(likesList.nth(1)).toContainText('likes: 2');
+      await expect(likesList.nth(2)).toContainText('likes: 1');
+
+      // console.log('allTextContents =', await likesList.allTextContents());
+
+    })
+
 
   })
 })
