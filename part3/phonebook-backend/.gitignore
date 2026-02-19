@@ -2,3 +2,6 @@
 ./vscode
 node_modules/*
 part2-notes-frontend/*
+
+.env
+.env*
