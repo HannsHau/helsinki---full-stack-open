@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .DS_Store
 part2-notes-frontend/*
+.env*
 
 # Editor directories and files
 .vscode/*
