@@ -3,7 +3,13 @@ import Anecdote from './Anecdote'
 
 const AnecdoteList = () => {
 
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(state => {
+    if (state.filter === '') {
+      return state.notes
+    }
+    return state.notes.filter((anecdote) => anecdote.content.toLowerCase().includes(state.filter.toLowerCase()) )
+    
+  })
 
   return (
     <>
