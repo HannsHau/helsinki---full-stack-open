@@ -37,8 +37,13 @@
     },
     {
       "content": "Hello my darling",
-      "votes": 1,
+      "votes": 2,
       "id": "JXD3Uwu"
+    },
+    {
+      "content": "Hello you fool",
+      "votes": 2,
+      "id": "its8vcB"
     }
   ]
 }
