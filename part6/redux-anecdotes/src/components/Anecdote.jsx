@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { addVote } from '../reducers/anecdoteReducer'
-import { setMessage, removeMessage } from '../reducers/anecdoteMessage'
+import { setMessageForPeriod } from '../reducers/anecdoteMessage'
 
 const Anecdote = ({ anecdote }) => {
 
@@ -8,8 +8,7 @@ const Anecdote = ({ anecdote }) => {
 
   const vote = anecdote => {
     dispatch(addVote(anecdote))
-    dispatch(setMessage(`You voted '${anecdote.content}'`))
-    setTimeout(() => {dispatch(removeMessage()) }, 5000)
+    dispatch(setMessageForPeriod(`You voted '${anecdote.content}'`, 10))
   }
 
   return ( <div key={anecdote.id}>
