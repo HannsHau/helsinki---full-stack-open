@@ -97,7 +97,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset" onClick={ () => { content.reset(); author.reset(); info.reset() } }>reset</button>
       </form>
     </div>
   )
@@ -129,7 +130,6 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote))
     setNotification(`a new anecdote ${anecdote.content} created!`)
     setTimeout(() => setNotification(''), 5000)
-
   }
 
   const match = useMatch('anecdotes/:id') 
