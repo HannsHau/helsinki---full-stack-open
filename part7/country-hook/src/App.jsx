@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react' 
+import countriesService from './services/countries'
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -18,7 +18,31 @@ const useField = (type) => {
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
-  useEffect(() => {})
+  useEffect(() => {
+    if (!name) { return }
+    console.log('name: ', name)
+
+    countriesService
+      .get(name)
+      .then( (country) => { 
+        console.log('Yes!')
+        console.log('country:',  country.name.common)
+        setCountry( { 
+          found: true, 
+          data: { 
+            name: country.name.common, 
+            capital: country.capital,
+            population: country.population,
+            flag: country.flags.svg
+          } })
+      })
+      .catch( () => { 
+        console.log('Fail!')
+        setCountry( { found: false, data: {} })
+    })
+    
+
+  }, [name])
 
   return country
 }
