@@ -1,0 +1,29 @@
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "merz",
+    "name": "Bundeskanzler Fritze Merz",
+    "password": "123"
+}
+
+#### hanns top-secret, merz 123
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "bugs",
+    "name": "Bugs Bunny",
+    "password": "top-secret"
+}
+
+#### Bugs
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "duffy",
+    "name": "Duffy Duck",
+    "password": "top-secret"
+}
+#### Duffy

@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: B_e_a_r_e_r xyz
+
+{
+  "title": "The fast and the furious",
+  "author": "Dr.Schnuggels",
+  "url": "http://ff.com",
+  "likes": 4
+}
