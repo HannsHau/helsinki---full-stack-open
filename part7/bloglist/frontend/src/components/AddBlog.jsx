@@ -1,13 +1,11 @@
 import { useState } from 'react'
 
 const AddBlog = ({ createBlog }) => {
-
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-
-  const handleNew = async (event) => {
+  const handleNew = async event => {
     event.preventDefault()
 
     const newBlog = { title, author, url }

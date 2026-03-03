@@ -4,7 +4,6 @@ import Blog from './Blog'
 import { vi, beforeEach } from 'vitest'
 
 describe('<Blog />', () => {
-
   //   const Blog = ({ blog, user, changeBlog, removeBlog }) => {
   //   <Blog key={blog.id} blog={blog} user={user} changeBlog={modifyBlog} removeBlog={removeBlog} />
   //   const blogSchema = new mongoose.Schema({
@@ -21,7 +20,6 @@ describe('<Blog />', () => {
   let mockHandler
 
   beforeEach(() => {
-
     const blog = {
       title: 'Bahamas!!!',
       author: 'DJ Bobo',
@@ -36,12 +34,10 @@ describe('<Blog />', () => {
 
     mockHandler = vi.fn()
 
-    render(<Blog blog={blog} user={dummyUser} changeBlog={mockHandler}/>)
-
+    render(<Blog blog={blog} user={dummyUser} changeBlog={mockHandler} />)
   })
 
   test('renders content', () => {
-
     //screen.debug()
 
     const title = screen.queryByText('Bahamas!!!')
@@ -55,11 +51,9 @@ describe('<Blog />', () => {
 
     const likes = screen.queryByText('likes')
     expect(likes).toBeNull()
-
   })
 
   test('display details', async () => {
-
     const url = screen.queryByText('www.popo.de')
     expect(url).toBeNull()
 
@@ -77,11 +71,9 @@ describe('<Blog />', () => {
 
     const newLikes = screen.getByText('likes: 3')
     expect(newLikes).toBeDefined()
-
   })
 
   test('likes button twice', async () => {
-
     const user = userEvent.setup()
     const viewButton = screen.getByText('view')
     await user.click(viewButton)
@@ -91,7 +83,5 @@ describe('<Blog />', () => {
     await user.click(likeButton)
 
     expect(mockHandler.mock.calls).toHaveLength(2)
-
   })
-
 })

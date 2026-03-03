@@ -4,13 +4,11 @@ import { input } from '@testing-library/user-event/dist/cjs/event/input.js'
 import userEvent from '@testing-library/user-event'
 
 describe('<AddBlog />', () => {
-
   test('check that handler recieves the right arguments', async () => {
-
     const user = userEvent.setup()
     const mockHandler = vi.fn()
 
-    render(<AddBlog createBlog={mockHandler}/>)
+    render(<AddBlog createBlog={mockHandler} />)
 
     // screen.debug()
 
@@ -38,5 +36,4 @@ describe('<AddBlog />', () => {
     expect(mockHandler.mock.calls[0][0].author).toBe('Goethe')
     expect(mockHandler.mock.calls[0][0].url).toBe('www.go.app')
   })
-
 })

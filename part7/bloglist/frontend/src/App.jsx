@@ -17,14 +17,13 @@ const App = () => {
   const addBlogRef = useRef()
 
   const prepareNotification = (text, error) => {
-    setNotification( { text: text, error: error } )
+    setNotification({ text: text, error: error })
     setTimeout(() => setNotification(null), 3000)
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    ) }, [])
+    blogService.getAll().then(blogs => setBlogs(blogs))
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -35,16 +34,14 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
+  const handleLogin = async event => {
     event.preventDefault()
 
     try {
       const user = await loginService.login({ username, password })
       blogService.setToken(user.token)
 
-      window.localStorage.setItem(
-        'loggedBlogUser', JSON.stringify(user)
-      )
+      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       setUser(user)
       setUsername('')
       setPassword('')
@@ -55,36 +52,36 @@ const App = () => {
     }
   }
 
-  const handleLogout = (event) => {
+  const handleLogout = event => {
     event.preventDefault()
     console.log('user clicked logout')
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
   }
 
-  const handleNew = async (blogObject) => {
-
+  const handleNew = async blogObject => {
     addBlogRef.current.toggleVisibility()
 
     const blog = await blogService.create(blogObject)
     setBlogs(blogs.concat(blog))
 
-    prepareNotification(`a new blog ${blog.title} by ${blog.author} added`, false)
+    prepareNotification(
+      `a new blog ${blog.title} by ${blog.author} added`,
+      false
+    )
   }
 
-  const modifyBlog = async (blogObject) => {
+  const modifyBlog = async blogObject => {
     const oldBlog = blogs.find(blog => blog.id === blogObject.id)
     const newBlog = await blogService.update(blogObject)
     newBlog.user = oldBlog.user
-    setBlogs(blogs.map(blog => blog.id === newBlog.id ? newBlog : blog ) )
+    setBlogs(blogs.map(blog => (blog.id === newBlog.id ? newBlog : blog)))
   }
 
-  const removeBlog = async (blogObject) => {
-
+  const removeBlog = async blogObject => {
     try {
       await blogService.deleteBlog(blogObject)
       setBlogs(blogs => blogs.filter(blog => blog.id !== blogObject.id))
-
     } catch (err) {
       prepareNotification(err.response.data.error, true)
     }
@@ -124,22 +121,29 @@ const App = () => {
 
   const cmpFn = (a, b) => {
     console.log(`a: ${a.author}_${a.likes}, b: ${b.author}_${b.likes}`)
-    return (b.likes - a.likes )
+    return b.likes - a.likes
   }
 
   return (
     <div>
       <h2>blogs</h2>
       <Notification notification={notification} />
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+      <p>
+        {user.name} logged in <button onClick={handleLogout}>logout</button>
+      </p>
       <h2>create new</h2>
-      <Togglable buttonLabel='create new blog' ref={addBlogRef}>
-        <AddBlog createBlog={handleNew}>
-        </AddBlog>
+      <Togglable buttonLabel="create new blog" ref={addBlogRef}>
+        <AddBlog createBlog={handleNew}></AddBlog>
       </Togglable>
-      {[...blogs].sort(cmpFn).map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} changeBlog={modifyBlog} removeBlog={removeBlog} />
-      )}
+      {[...blogs].sort(cmpFn).map(blog => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          user={user}
+          changeBlog={modifyBlog}
+          removeBlog={removeBlog}
+        />
+      ))}
     </div>
   )
 }
