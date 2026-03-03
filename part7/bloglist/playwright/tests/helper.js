@@ -1,13 +1,12 @@
 const { expect } = require('@playwright/test')
 
-const loginWith = async (page, username, password)  => {
+const loginWith = async (page, username, password) => {
   await page.getByRole('textbox', { name: 'username' }).fill(username)
   await page.getByRole('textbox', { name: 'password' }).fill(password)
   await page.getByRole('button', { name: 'login' }).click()
 }
 
 const createBlog = async (page, title, author, url) => {
-
   await page.getByRole('button', { name: 'create new blog' }).click()
 
   await expect(page.getByRole('textbox', { name: 'title' })).toBeVisible()
@@ -23,7 +22,6 @@ const createBlog = async (page, title, author, url) => {
 }
 
 const createBlogWithLikes = async (page, title, author, url, likes) => {
-  
   await createBlog(page, title, author, url)
   const entry = page.getByText(title + ' ' + author)
 
@@ -34,7 +32,6 @@ const createBlogWithLikes = async (page, title, author, url, likes) => {
   }
 
   await expect(entry.getByText('likes: ' + likes)).toBeVisible()
-
 }
 
-export { loginWith , createBlog, createBlogWithLikes}
+export { loginWith, createBlog, createBlogWithLikes }
