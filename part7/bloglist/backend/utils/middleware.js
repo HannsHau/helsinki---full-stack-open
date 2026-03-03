@@ -3,25 +3,22 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
 const tokenExtractor = (request, response, next) => {
-
   const authorization = request.get('authorization')
   if (authorization && authorization.startsWith('Bearer ')) {
     request.token = authorization.replace('Bearer ', '')
   }
- 
+
   next()
 }
 
 const userExtractor = async (request, response, next) => {
-
   if (request.token) {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     console.log('decodedToken: ', decodedToken)
 
     const user = await User.findById(decodedToken.id)
-    console.log("user: ", user._id)
+    console.log('user: ', user._id)
     request.user = user
-
   }
 
   next()
@@ -32,13 +29,13 @@ const unknownEndpoint = (request, response) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-  logger.error("errorHandler: ", error)
+  logger.error('errorHandler: ', error)
   // console.log("errorHandler: ", error)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if(error === 'PasswordShort') {
-     return response.status(400).send({ error: 'password to short' }) 
+  } else if (error === 'PasswordShort') {
+    return response.status(400).send({ error: 'password to short' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   } else if (error.name === 'ReferenceError') {
@@ -64,5 +61,8 @@ const errorHandler = (error, request, response, next) => {
 }
 
 module.exports = {
-  unknownEndpoint, errorHandler, tokenExtractor, userExtractor
+  unknownEndpoint,
+  errorHandler,
+  tokenExtractor,
+  userExtractor
 }

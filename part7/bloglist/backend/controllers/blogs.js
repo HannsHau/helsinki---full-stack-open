@@ -7,7 +7,6 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
@@ -23,20 +22,16 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-
-
   const user = request.user.id
   const blog = await Blog.findById(request.params.id)
   const blog_user_id = blog.user._id.toHexString()
 
-
-
-  if ( blog_user_id === user ) {
+  if (blog_user_id === user) {
     await Blog.findByIdAndDelete(request.params.id)
   } else {
     return response.status(401).json({ error: 'not authorized' })
   }
-  
+
   response.status(204).end()
 })
 

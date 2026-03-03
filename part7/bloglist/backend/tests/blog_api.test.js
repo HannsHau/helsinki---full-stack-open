@@ -20,7 +20,6 @@ test('blogs are returned as json', async () => {
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
-
 })
 
 test('all notes are returned', async () => {
@@ -33,20 +32,18 @@ test('unique identifier property is named id', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToView = blogsAtStart[0]
 
-  assert(Object.hasOwn(blogToView, "id"))
-  assert(!Object.hasOwn(blogToView, "_id"))
-
+  assert(Object.hasOwn(blogToView, 'id'))
+  assert(!Object.hasOwn(blogToView, '_id'))
 })
 
 test('verify post of blog entry', async () => {
-
   const token = await helper.getToken(api)
 
   const newBlog = {
-    title: "Böse Menschen, böse Lieder",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 3,
+    title: 'Böse Menschen, böse Lieder',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 3
   }
 
   await api
@@ -64,13 +61,12 @@ test('verify post of blog entry', async () => {
 })
 
 test('verify that likes are set to 0 if not provided', async () => {
-  
   const token = await helper.getToken(api)
 
   const newBlog = {
-    title: "without any likes: title",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
+    title: 'without any likes: title',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/'
   }
 
   await api
@@ -82,8 +78,8 @@ test('verify that likes are set to 0 if not provided', async () => {
 
   const blogsAtEnd = await helper.blogsInDb()
 
-  const isTitle = (blogs) => {
-    return blogs.title === "without any likes: title"
+  const isTitle = blogs => {
+    return blogs.title === 'without any likes: title'
   }
 
   const foundBlog = blogsAtEnd.find(isTitle)
@@ -93,29 +89,22 @@ test('verify that likes are set to 0 if not provided', async () => {
 
 test('new blog needs title and url ', async () => {
   const newBlogWithoutTitle = {
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/'
   }
   const newBlogWithoutUrl = {
-    author: "Michael Chan",
-    title: "Hello Fool",
+    author: 'Michael Chan',
+    title: 'Hello Fool'
   }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlogWithoutTitle)
-    .expect(400)
+  await api.post('/api/blogs').send(newBlogWithoutTitle).expect(400)
 
-  await api
-    .post('/api/blogs')
-    .send(newBlogWithoutUrl)
-    .expect(400)
-  
+  await api.post('/api/blogs').send(newBlogWithoutUrl).expect(400)
+
   assert(true)
-  
 })
 
-//TODO Problem with the delete is, that the users are newly generated, but than we got a 
+//TODO Problem with the delete is, that the users are newly generated, but than we got a
 // missmatch between blog and user, so it would be nice to set up the database in one function
 // test('succeeds with status code 204 if id is valid', async () => {
 
@@ -123,7 +112,6 @@ test('new blog needs title and url ', async () => {
 
 //   const blogsAtStart = await helper.blogsInDb()
 //   const blogToDelete = blogsAtStart[0]
-
 
 //   await api
 //     .delete(`/api/blogs/${blogToDelete.id}`)
@@ -139,9 +127,7 @@ test('new blog needs title and url ', async () => {
 // })
 
 describe('update an post', () => {
-  
   test('update a blog, incresse the likes', async () => {
-
     const blogsAtStart = await helper.blogsInDb()
     const blogToUpdate = structuredClone(blogsAtStart[0]) // need to save the old struct before modification
 
@@ -153,20 +139,17 @@ describe('update an post', () => {
       .expect(200)
 
     const blogsAtEnd = await helper.blogsInDb()
-    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length )
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 
-    const isTitle = (blogs) => {
+    const isTitle = blogs => {
       return blogs.title === blogToUpdate.title
     }
 
     const foundBlog = blogsAtEnd.find(isTitle)
 
     assert.strictEqual(foundBlog.likes, blogsAtStart[0].likes + 1)
-
-
   })
   test('update a blog, change URL', async () => {
-
     const blogsAtStart = await helper.blogsInDb()
     const blogToUpdate = structuredClone(blogsAtStart[0]) // need to save the old struct before modification
 
@@ -178,9 +161,9 @@ describe('update an post', () => {
       .expect(200)
 
     const blogsAtEnd = await helper.blogsInDb()
-    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length )
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 
-    const isTitle = (blogs) => {
+    const isTitle = blogs => {
       return blogs.title === blogToUpdate.title
     }
 
@@ -190,7 +173,6 @@ describe('update an post', () => {
   })
 
   test('update a blog, but it not anymore in the database', async () => {
-
     const blogsAtStart = await helper.blogsInDb()
     const blogToUpdate = structuredClone(blogsAtStart[0]) // need to save the old struct before modification
 
@@ -204,8 +186,8 @@ describe('update an post', () => {
       .expect(404)
 
     const blogsAtEnd = await helper.blogsInDb()
-    
-    assert(_.isEqual(blogsAtEnd, blogsAtStart ))
+
+    assert(_.isEqual(blogsAtEnd, blogsAtStart))
   })
 })
 

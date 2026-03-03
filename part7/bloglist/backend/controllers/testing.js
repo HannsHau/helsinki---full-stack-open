@@ -3,7 +3,6 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 router.post('/reset', async (request, response) => {
-
   console.log('try route /reset')
   await Blog.deleteMany({})
   await User.deleteMany({})

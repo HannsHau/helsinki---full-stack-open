@@ -14,14 +14,11 @@ beforeEach(async () => {
   for (let user of helper.initialUsers) {
     // let userObject = new User(user)
     // await userObject.save()
-    await api
-      .post('/api/users')
-      .send(user)
+    await api.post('/api/users').send(user)
   }
 })
 
 describe('user tests', () => {
-
   test('user are returned as json', async () => {
     await api
       .get('/api/users')
@@ -35,7 +32,6 @@ describe('user tests', () => {
   })
 
   test('add a new user', async () => {
-
     await api
       .post('/api/users')
       .send(helper.newUser)
@@ -55,37 +51,26 @@ describe('user tests', () => {
     const newUser = helper.newUser
     newUser.username = usersFromInit[0].username
 
-    await api
-      .post('/api/users')
-      .send(helper.newUser)
-      .expect(400)
+    await api.post('/api/users').send(helper.newUser).expect(400)
   })
 
   test('username min 3 character', async () => {
-
     const newUser = structuredClone(helper.newUser)
-    newUser.username = "mo"
+    newUser.username = 'mo'
 
-    await api
-      .post('/api/users')
-      .send(helper.newUser)
-      .expect(400)
+    await api.post('/api/users').send(helper.newUser).expect(400)
   })
 
   test('password min 3 character', async () => {
-
     const usersAtStart = await helper.usersInDb()
     assert(usersAtStart.length === 2)
 
     const newUser = {
-      "username": "speedy",
-      "name": "Speedy González",
-      "password": "t0"
+      username: 'speedy',
+      name: 'Speedy González',
+      password: 't0'
     }
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    await api.post('/api/users').send(newUser).expect(400)
   })
 })
 
