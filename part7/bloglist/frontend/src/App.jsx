@@ -12,9 +12,8 @@ import { setTimedNotification } from './reducers/notificationReducer'
 const App = () => {
   const dispatch = useDispatch()
   const notification = useSelector( state => state.notification )
-  const freshBlogs = useSelector(state => state.blogs ) // TODO delete later blogs
+  const blogs = useSelector(state => state.blogs ) 
 
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -26,10 +25,6 @@ const App = () => {
     const payload = { text: text, error: error }
     dispatch(setTimedNotification(payload, 3))
   }
-
-  useEffect(() => {
-    blogService.getAll().then(blogs => setBlogs(blogs))
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -63,23 +58,6 @@ const App = () => {
     console.log('user clicked logout')
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
-  }
-
-
-  const modifyBlog = async blogObject => {
-    const oldBlog = blogs.find(blog => blog.id === blogObject.id)
-    const newBlog = await blogService.update(blogObject)
-    newBlog.user = oldBlog.user
-    setBlogs(blogs.map(blog => (blog.id === newBlog.id ? newBlog : blog)))
-  }
-
-  const removeBlog = async blogObject => {
-    try {
-      await blogService.deleteBlog(blogObject)
-      setBlogs(blogs => blogs.filter(blog => blog.id !== blogObject.id))
-    } catch (err) {
-      prepareNotification(err.response.data.error, true)
-    }
   }
 
   if (user === null) {
@@ -130,13 +108,11 @@ const App = () => {
       <Togglable buttonLabel="create new blog" ref={addBlogRef}>
         <AddBlog ref={addBlogRef}></AddBlog>
       </Togglable>
-      {[...freshBlogs].sort(cmpFn).map(blog => (
+      {[...blogs].sort(cmpFn).map(blog => (
         <Blog
           key={blog.id}
           blog={blog}
-          user={user}
-          changeBlog={modifyBlog}
-          removeBlog={removeBlog}
+          user={user.username}
         />
       ))}
     </div>

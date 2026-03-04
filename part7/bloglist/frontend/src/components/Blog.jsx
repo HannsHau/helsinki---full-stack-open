@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { useDispatch} from 'react-redux'
+import { modifyBlog, removeBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, user, changeBlog, removeBlog }) => {
+const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch()
   const [details, setDetails] = useState(false)
 
   const blogStyle = {
@@ -30,7 +33,8 @@ const Blog = ({ blog, user, changeBlog, removeBlog }) => {
 
   const handleRemoveBlog = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      removeBlog(blog)
+      //removeBlog(blog)
+      dispatch(removeBlog(blog))
     } else {
       console.log('abort by user')
     }
@@ -41,8 +45,8 @@ const Blog = ({ blog, user, changeBlog, removeBlog }) => {
   }
 
   const addLike = async () => {
-    blog.likes += 1
-    changeBlog(blog)
+    const likedBlog = {...blog, likes: blog.likes + 1}
+    dispatch(modifyBlog(likedBlog))
   }
 
   const detailsView = () => {
