@@ -12,6 +12,7 @@ import { setTimedNotification } from './reducers/notificationReducer'
 const App = () => {
   const dispatch = useDispatch()
   const notification = useSelector( state => state.notification )
+  const freshBlogs = useSelector(state => state.blogs ) // TODO delete later blogs
 
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -64,17 +65,6 @@ const App = () => {
     setUser(null)
   }
 
-  const handleNew = async blogObject => {
-    addBlogRef.current.toggleVisibility()
-
-    const blog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(blog))
-
-    prepareNotification(
-      `a new blog ${blog.title} by ${blog.author} added`,
-      false
-    )
-  }
 
   const modifyBlog = async blogObject => {
     const oldBlog = blogs.find(blog => blog.id === blogObject.id)
@@ -138,9 +128,9 @@ const App = () => {
       </p>
       <h2>create new</h2>
       <Togglable buttonLabel="create new blog" ref={addBlogRef}>
-        <AddBlog createBlog={handleNew}></AddBlog>
+        <AddBlog ref={addBlogRef}></AddBlog>
       </Togglable>
-      {[...blogs].sort(cmpFn).map(blog => (
+      {[...freshBlogs].sort(cmpFn).map(blog => (
         <Blog
           key={blog.id}
           blog={blog}

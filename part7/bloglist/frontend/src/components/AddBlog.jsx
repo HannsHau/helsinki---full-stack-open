@@ -1,6 +1,10 @@
 import { useState } from 'react'
+import { useDispatch} from 'react-redux'
+import { addBlog } from '../reducers/blogReducer'
 
-const AddBlog = ({ createBlog }) => {
+const AddBlog = ({ ref }) => {
+  const dispatch = useDispatch()
+
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -10,7 +14,8 @@ const AddBlog = ({ createBlog }) => {
 
     const newBlog = { title, author, url }
 
-    createBlog(newBlog)
+    ref.current.toggleVisibility()
+    dispatch(addBlog(newBlog))
 
     setTitle('')
     setAuthor('')
