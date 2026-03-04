@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useParams, Link } from 'react-router-dom'
 
 import Blog from './components/Blog'
 import AddBlog from './components/AddBlog'
@@ -51,7 +51,7 @@ const Users = () => {
         <tbody>
           {users.map(u => (
             <tr key={u.id}>
-              <td>{u.username}</td>
+              <td><Link to={`/user/${u.id}`}>{u.username}</Link></td>
               <td>{u.blogs.length}</td>
             </tr>
             ))}
@@ -59,6 +59,27 @@ const Users = () => {
       </table>
     </div>
   )
+}
+
+const User = () => {
+  
+  const id = useParams().id
+  const user = useSelector( state => state.users.find( u => (u.id === id) ) ) 
+
+  if (!user) return <p>404 not found</p>
+
+  return (
+    <>
+      <h2>{user.name}</h2>
+      <h3>{user.blogs.length > 0 ? 'added blogs' : 'no blogs'}</h3>
+      <ul>
+        {user.blogs.map(b => ( 
+            <li>{b.title}</li>
+            ) )}
+      </ul>
+    </>
+  )
+  
 }
 
 const App = () => {
@@ -123,6 +144,7 @@ const App = () => {
       </p>
 
       <Routes>
+        <Route path="/user/:id" element={<User />} />
         <Route path="/users" element={<Users />} />
         <Route path="/" element={<Home />} />
       </Routes>
