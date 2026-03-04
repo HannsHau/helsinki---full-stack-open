@@ -1,4 +1,6 @@
 import { useState, useRef } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import Blog from './components/Blog'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
@@ -7,17 +9,66 @@ import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser, logoutUser } from './reducers/userReducer'
 
+const Home = () => {
+  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
+
+  const addBlogRef = useRef()
+
+  if (addBlogRef === null) {
+    return <h2>empty addBlogRef</h2>
+  }
+
+  const cmpFn = (a, b) => {
+    return b.likes - a.likes
+  }
+
+  return (
+    <div>
+      <h2>create new</h2>
+      <Togglable buttonLabel="create new blog" ref={addBlogRef}>
+        <AddBlog ref={addBlogRef}></AddBlog>
+      </Togglable>
+      {[...blogs].sort(cmpFn).map(blog => (
+        <Blog key={blog.id} blog={blog} user={user.username} />
+      ))}
+    </div>
+  )
+}
+
+const Users = () => {
+  const users = useSelector(state => state.users) 
+  return (
+    <div>
+      <h2>Users</h2>
+      <table key='userstable'>
+        <thead>
+          <tr>
+            <th></th>
+            <th>blogs created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(u => (
+            <tr key={u.id}>
+              <td>{u.username}</td>
+              <td>{u.blogs.length}</td>
+            </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 const App = () => {
   const dispatch = useDispatch()
-  
-  const notification = useSelector( state => state.notification )
-  const blogs = useSelector(state => state.blogs ) 
-  const user = useSelector(state => state.user )
+
+  const notification = useSelector(state => state.notification)
+  const user = useSelector(state => state.user)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  const addBlogRef = useRef()
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -63,31 +114,20 @@ const App = () => {
     )
   }
 
-  const cmpFn = (a, b) => {
-    // console.log(`a: ${a.author}_${a.likes}, b: ${b.author}_${b.likes}`)
-    return b.likes - a.likes
-  }
-
   return (
-    <div>
+    <Router>
       <h2>blogs</h2>
-      <h3>User: {user && user.name}</h3>
       <Notification notification={notification} />
       <p>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
       </p>
-      <h2>create new</h2>
-      <Togglable buttonLabel="create new blog" ref={addBlogRef}>
-        <AddBlog ref={addBlogRef}></AddBlog>
-      </Togglable>
-      {[...blogs].sort(cmpFn).map(blog => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          user={user.username}
-        />
-      ))}
-    </div>
+
+      <Routes>
+        <Route path="/users" element={<Users />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+
+    </Router>
   )
 }
 

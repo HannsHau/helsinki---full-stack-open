@@ -25,9 +25,7 @@ const blogSlice = createSlice({
 })
 
 const { add, modify, remove } = blogSlice.actions
-
 export const addBlog = blog => {
-
   return async dispatch => {
     const newBlog = await blogService.create(blog)
     dispatch(add(newBlog))
@@ -41,7 +39,6 @@ export const addBlog = blog => {
 }
 
 export const modifyBlog = blog => {
-
   return async dispatch => {
     const changedBlog = await blogService.update(blog)
 
@@ -55,10 +52,8 @@ export const modifyBlog = blog => {
 }
 
 export const removeBlog = blog => {
-
   return async dispatch => {
     try {
-      
       await blogService.deleteBlog(blog)
       dispatch(remove(blog))
       const payload = {
