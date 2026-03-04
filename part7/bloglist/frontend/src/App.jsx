@@ -6,19 +6,24 @@ import Notification from './components/Notification'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 
+import { useDispatch, useSelector } from 'react-redux'
+import { setTimedNotification } from './reducers/notificationReducer'
+
 const App = () => {
+  const dispatch = useDispatch()
+  const notification = useSelector( state => state.notification )
+
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
 
   const addBlogRef = useRef()
 
   const prepareNotification = (text, error) => {
-    setNotification({ text: text, error: error })
-    setTimeout(() => setNotification(null), 3000)
+    const payload = { text: text, error: error }
+    dispatch(setTimedNotification(payload, 3))
   }
 
   useEffect(() => {
@@ -120,7 +125,7 @@ const App = () => {
   }
 
   const cmpFn = (a, b) => {
-    console.log(`a: ${a.author}_${a.likes}, b: ${b.author}_${b.likes}`)
+    // console.log(`a: ${a.author}_${a.likes}, b: ${b.author}_${b.likes}`)
     return b.likes - a.likes
   }
 
