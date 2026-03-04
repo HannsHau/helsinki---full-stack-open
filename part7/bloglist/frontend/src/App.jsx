@@ -1,63 +1,34 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Blog from './components/Blog'
 import AddBlog from './components/AddBlog'
-import blogService from './services/blogs'
 import Notification from './components/Notification'
-import loginService from './services/login'
 import Togglable from './components/Togglable'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setTimedNotification } from './reducers/notificationReducer'
+import { loginUser, logoutUser } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch()
+  
   const notification = useSelector( state => state.notification )
   const blogs = useSelector(state => state.blogs ) 
+  const user = useSelector(state => state.user )
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [user, setUser] = useState(null)
-
   const addBlogRef = useRef()
-
-  const prepareNotification = (text, error) => {
-    const payload = { text: text, error: error }
-    dispatch(setTimedNotification(payload, 3))
-  }
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
 
   const handleLogin = async event => {
     event.preventDefault()
-
-    try {
-      const user = await loginService.login({ username, password })
-      blogService.setToken(user.token)
-
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      console.log('Login successful: ', user)
-    } catch {
-      prepareNotification('wrong username or password', true)
-      console.log('Login failed: ', user)
-    }
+    dispatch(loginUser({ username, password }))
+    setUsername('')
+    setPassword('')
   }
 
   const handleLogout = event => {
     event.preventDefault()
-    console.log('user clicked logout')
-    window.localStorage.removeItem('loggedBlogUser')
-    setUser(null)
+    dispatch(logoutUser())
   }
 
   if (user === null) {
@@ -100,6 +71,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <h3>User: {user && user.name}</h3>
       <Notification notification={notification} />
       <p>
         {user.name} logged in <button onClick={handleLogout}>logout</button>

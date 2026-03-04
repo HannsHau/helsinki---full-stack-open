@@ -18,7 +18,7 @@ const Blog = ({ blog, user }) => {
     if (blog === null || blog.username === null || user === null) {
       return false
     }
-    return blog.user.username === user.username
+    return blog.user.username === user
   }
 
   const buttonRemove = {
