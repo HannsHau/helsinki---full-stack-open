@@ -105,6 +105,10 @@ const BlogPage = () => {
         <button onClick={addLike} >like</button>
       </li> 
       <li>added by {blog.user.name}</li> 
+      <h3>{blog.comments.length > 0 ? 'comments' : 'no comments'}</h3>
+      <ul>
+      {blog.comments.map( (comment, index) => (<li key={index}>{comment}</li>) ) }
+      </ul>
     </>
   )
 }

@@ -7,6 +7,22 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const content = request.body.content
+  
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(404).end()
+  } 
+
+  blog.comments.push(content)
+
+  const savedBlog = await blog.save()
+  await savedBlog.populate('user')
+  response.json(savedBlog)
+
+})
+
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
