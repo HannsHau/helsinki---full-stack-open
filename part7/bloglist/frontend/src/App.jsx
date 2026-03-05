@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route, useParams, Link } from 'react-router-dom'
 
 import Blog from './components/Blog'
+import { modifyBlog } from './reducers/blogReducer'
 import AddBlog from './components/AddBlog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -79,7 +80,33 @@ const User = () => {
       </ul>
     </>
   )
+}
+
+const BlogPage = () => {
+  const dispatch = useDispatch()
   
+  const id = useParams().id
+
+  const blog = useSelector( state => state.blogs.find( b => ( b.id === id) ) ) 
+
+  if (!blog) return <p>404 not found</p>
+
+  const addLike = async () => {
+    const likedBlog = {...blog, likes: blog.likes + 1}
+    dispatch(modifyBlog(likedBlog))
+  }
+
+  return (
+    <>
+      <h2>'{blog.title}' by {blog.author}</h2>
+      <li><a href={blog.url}>{blog.url}</a></li>
+      <li>
+        likes: {blog.likes}
+        <button onClick={addLike} >like</button>
+      </li> 
+      <li>added by {blog.user.name}</li> 
+    </>
+  )
 }
 
 const App = () => {
@@ -146,6 +173,7 @@ const App = () => {
       <Routes>
         <Route path="/user/:id" element={<User />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/blogs/:id" element={<BlogPage />} />
         <Route path="/" element={<Home />} />
       </Routes>
 
