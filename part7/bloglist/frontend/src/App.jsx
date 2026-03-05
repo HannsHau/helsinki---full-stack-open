@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Form, Button } from 'react-bootstrap'
 
 import Home from './components/Home'
 import User from './components/User'
@@ -33,32 +34,32 @@ const App = () => {
 
   if (user === null) {
     return (
-      <div>
+      <div className="container">
         <h2>log in to application</h2>
         <Notification notification={notification} />
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
+            <Form.Label>
               username
-              <input
+              <Form.Control
                 type="text"
                 value={username}
                 onChange={({ target }) => setUsername(target.value)}
               />
-            </label>
-          </div>
-          <div>
-            <label>
+            </Form.Label>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>
               password
-              <input
+              <Form.Control
                 type="password"
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}
               />
-            </label>
-          </div>
-          <button type="submit">login</button>
-        </form>
+            </Form.Label>
+          </Form.Group>
+          <Button type="submit">login</Button>
+        </Form>
       </div>
     )
   }
@@ -69,22 +70,23 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{background: 'lightgrey', padding: 5}} >
-        <Link style={padding} to="/">blogs</Link>
-        <Link style={padding} to="/users">users</Link>
-        <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
+      <div className="container">
+        <div style={{background: 'lightgrey', padding: 5}} >
+          <Link style={padding} to="/">blogs</Link>
+          <Link style={padding} to="/users">users</Link>
+          <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
+        </div>
+        <h2>blog app</h2>
+        <Notification notification={notification} />
+
+
+        <Routes>
+          <Route path="/user/:id" element={<User />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/blogs/:id" element={<BlogPage />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
       </div>
-      <h2>blog app</h2>
-      <Notification notification={notification} />
-
-
-      <Routes>
-        <Route path="/user/:id" element={<User />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/blogs/:id" element={<BlogPage />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-
     </Router>
   )
 }
