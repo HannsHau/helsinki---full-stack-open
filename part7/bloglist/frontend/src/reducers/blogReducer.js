@@ -38,6 +38,17 @@ export const addBlog = blog => {
   }
 }
 
+export const addCommentToBlog = (id, comment) => {
+  console.log(`reached with id:${id} and comment:'${comment}'`);
+
+  return async dispatch => {
+    const changedBlog = await blogService.addComment(id, { content: comment})
+    console.log('db returned Blog', changedBlog);
+    dispatch(modify(changedBlog))
+  }
+  
+}
+
 export const modifyBlog = blog => {
   return async dispatch => {
     const changedBlog = await blogService.update(blog)
