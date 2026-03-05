@@ -162,13 +162,20 @@ const App = () => {
     )
   }
 
+  const padding = {
+    padding: 5
+  }
+
   return (
     <Router>
-      <h2>blogs</h2>
+      <div style={{background: 'lightgrey', padding: 5}} >
+        <Link style={padding} to="/">blogs</Link>
+        <Link style={padding} to="/users">users</Link>
+        <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
+      </div>
+      <h2>blog app</h2>
       <Notification notification={notification} />
-      <p>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
-      </p>
+
 
       <Routes>
         <Route path="/user/:id" element={<User />} />
