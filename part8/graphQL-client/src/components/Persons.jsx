@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 
 import { FIND_PERSON } from '../queries'

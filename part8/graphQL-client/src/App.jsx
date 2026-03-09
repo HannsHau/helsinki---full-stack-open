@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+
 import { useState } from 'react'
 import { useQuery } from '@apollo/client/react'
 import PersonForm from './components/PersonForm'
