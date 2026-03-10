@@ -5,6 +5,7 @@ const Authors = (props) => {
     return null
   }
   const authors = props.authors
+  const authorsNames = authors.map(a => a.name)
 
   return (
     <div>
@@ -25,7 +26,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <EditAuthor setError={props.setError} />
+      <EditAuthor setError={props.setError} names={authorsNames} />
     </div>
   )
 }

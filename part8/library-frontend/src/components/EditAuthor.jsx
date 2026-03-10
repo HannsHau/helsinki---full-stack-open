@@ -2,8 +2,9 @@ import { useMutation } from '@apollo/client/react'
 import { useState } from 'react'
 import { EDIT_AUTHOR } from '../queries'
 
-const EditAuthor = ({ setError }) => {
-  const [name, setName] = useState('')
+const EditAuthor = ({ setError, names }) => {
+
+  const [selectedName, setSelectedName] = useState(names ? names[0] : '')
   const [born, setBorn] = useState('')
 
   const [ editAuthor ] =  useMutation(EDIT_AUTHOR, {
@@ -18,9 +19,8 @@ const EditAuthor = ({ setError }) => {
   const submit = async event => {
     event.preventDefault()
 
-    editAuthor({ variables: { name, born: born ? Number(born) : undefined } })
+    editAuthor({ variables: { name: selectedName, born: born ? Number(born) : undefined } })
 
-    setName('')
     setBorn('')
   }
 
@@ -30,10 +30,11 @@ const EditAuthor = ({ setError }) => {
       <form onSubmit={submit}>
         <div>
           name
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+          <select 
+            value={selectedName}
+            onChange={e => setSelectedName(e.target.value)}>
+            {names.map(n => <option key={n} value={n} >{n}</option>)}
+          </select>
         </div>
         <div>
           born
