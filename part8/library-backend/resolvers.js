@@ -1,4 +1,4 @@
-const { v1: uuid } = require('uuid')
+const { GraphQLError } = require('graphql')
 const Book = require('./models/book')
 const Author = require('./models/author')
 
@@ -53,7 +53,19 @@ const resolvers = {
       }
 
       const book = new Book({ ...args, author: authorExists})
-      return book.save()
+      try {
+        await book.save()
+      } catch (error) {
+        throw new GraphQLError(`Saving book failed: ${error.message}`, {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.title,
+            error
+          }
+        })
+      }
+ 
+      return book
     },
     editAuthor: async (root, args) => {
 
@@ -64,7 +76,19 @@ const resolvers = {
       }
 
       author.born = args.born
-      return author.save()
+      try {
+        await author.save()
+      } catch (error) {
+        throw new GraphQLError(`Modifing author failed: ${error.message}`, {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.born,
+            error
+          }
+        })
+      }
+ 
+      return author
     }
   }
 }
