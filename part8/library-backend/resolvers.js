@@ -21,7 +21,7 @@ const resolvers = {
         }
       }
 
-      return Book.find(filter)
+      return Book.find(filter).populate('author')
     },
     allAuthors: async (root, args) => Author.find({})
   },
