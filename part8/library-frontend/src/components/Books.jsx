@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useQuery } from '@apollo/client/react'
-import { READ_BOOKS_BY_GENRE } from '../queries'
+import { READ_BOOKS_BY_GENRE, READ_ALL } from '../queries'
 
 const Books = ({ show, books }) => {
   const [genre, setGenre] = useState(null)
@@ -11,7 +11,8 @@ const Books = ({ show, books }) => {
   )
 
   const result = useQuery(READ_BOOKS_BY_GENRE, {
-    variables: { genreToSearch: genre }
+    variables: { genreToSearch: genre },
+    fetchPolicy: "network-only",
   })
   
   if (!show) {
