@@ -20,7 +20,6 @@ const NewBook = props => {
   const submit = async event => {
     event.preventDefault()
 
-    console.log('add book...')
     const year = published ? Number(published) : undefined
     createBook({ variables: { title, published: year, author, genres } })
 
