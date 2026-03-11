@@ -12,6 +12,7 @@ export const READ_ALL = gql`
       id
       title
       published
+      genres
       author {
         name
         id
