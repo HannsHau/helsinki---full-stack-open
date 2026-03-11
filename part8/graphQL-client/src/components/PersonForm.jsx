@@ -4,21 +4,34 @@ import { useMutation } from '@apollo/client/react'
 
 import { CREATE_PERSON, ALL_PERSONS } from '../queries'
 
-const PersonForm = ({setError}) => {
+const PersonForm = ({ setError }) => {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [street, setStreet] = useState('')
   const [city, setCity] = useState('')
 
   const [createPerson] = useMutation(CREATE_PERSON, {
-    refetchQueries: [{ query: ALL_PERSONS }],
     onError: (error) => setError(error.message),
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_PERSONS }, ({ allPersons }) => {
+        return {
+          allPersons: allPersons.concat(response.data.addPerson),
+        }
+      })
+    },
   })
 
-  const submit = (event) => {
+  const submit = event => {
     event.preventDefault()
-    
-    createPerson({ variables: { name, phone, street, city } })
+
+    createPerson({
+      variables: {
+        name,
+        street,
+        city,
+        phone: phone.length > 0 ? phone : undefined
+      }
+    })
 
     setName('')
     setPhone('')
@@ -31,26 +44,34 @@ const PersonForm = ({setError}) => {
       <h2>create new</h2>
       <form onSubmit={submit}>
         <div>
-          name <input value={name}
+          name{' '}
+          <input
+            value={name}
             onChange={({ target }) => setName(target.value)}
           />
         </div>
         <div>
-          phone <input value={phone}
+          phone{' '}
+          <input
+            value={phone}
             onChange={({ target }) => setPhone(target.value)}
           />
         </div>
         <div>
-          street <input value={street}
+          street{' '}
+          <input
+            value={street}
             onChange={({ target }) => setStreet(target.value)}
           />
         </div>
         <div>
-          city <input value={city}
+          city{' '}
+          <input
+            value={city}
             onChange={({ target }) => setCity(target.value)}
           />
         </div>
-        <button type='submit'>add!</button>
+        <button type="submit">add!</button>
       </form>
     </div>
   )

@@ -14,6 +14,7 @@ const App = () => {
   const result = useQuery(READ_ALL)
 
   if (result.loading) {
+    console.log('loading...')
     return <div>loading...</div>
   }
 
@@ -24,6 +25,8 @@ const App = () => {
     }, 10000)
   }
 
+  console.log('books: ', result.data.allBooks)
+
   return (
     <div>
       <Notify errorMessage={errorMessage} />
@@ -33,7 +36,8 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors show={page === 'authors'} authors={result.data.allAuthors} setError={notify}/>
+      <Authors show={page === 'authors'} 
+        authors={result.data.allAuthors} setError={notify}/>
       <Books show={page === 'books'} books={result.data.allBooks} />
 
       <NewBook show={page === 'add'} />
