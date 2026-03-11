@@ -23,6 +23,22 @@ export const READ_ALL = gql`
   }
 `
 
+export const READ_BOOKS_BY_GENRE = gql`
+  query readBooksByGenre($genreToSearch: String) {
+    allBooks(genre: $genreToSearch) {
+      id
+      title
+      published
+      genres
+      author {
+        name
+        id
+        born
+        bookCount
+      }
+    }
+}`
+
 export const CREATE_BOOK = gql`
   mutation createBook(
     $title: String!

@@ -49,8 +49,10 @@ const App = () => {
 
       <Authors show={page === 'authors'} 
         authors={result.data.allAuthors} setError={notify}/>
-      <Books show={page === 'books'} books={result.data.allBooks} />
-      <Recommend show={page === 'recommend'} books={result.data.allBooks} />
+      <Books show={page === 'books'} 
+        books={result.data.allBooks} 
+        />
+      <Recommend show={page === 'recommend'} oldBooks={result.data.allBooks} />
       <NewBook show={page === 'add'} />
 
       <LoginForm show={page === 'login'} setError={notify} setToken={setToken} />

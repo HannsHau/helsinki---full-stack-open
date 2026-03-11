@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react'
+import { useQuery } from '@apollo/client/react'
+import { READ_BOOKS_BY_GENRE } from '../queries'
 
 const Books = ({ show, books }) => {
   const [genre, setGenre] = useState(null)
@@ -8,11 +10,21 @@ const Books = ({ show, books }) => {
     [books]
   )
 
+  const result = useQuery(READ_BOOKS_BY_GENRE, {
+    variables: { genreToSearch: genre }
+  })
+  
   if (!show) {
     return null
   }
 
-  const handleClick = (clickedGenre) => {
+  if (result.loading) {
+    return <div>loading...</div>
+  }
+
+  const newBooks = result.data?.allBooks ?? ''
+
+  const handleClick = clickedGenre => {
     if (clickedGenre === genre) {
       setGenre(null)
     } else {
@@ -20,12 +32,14 @@ const Books = ({ show, books }) => {
     }
   }
 
-  const byGenre = (a) => !genre || a.genres.includes(genre)
-
   return (
     <div>
       <h2>books</h2>
-      {genre && <p>in genre <b>{genre}</b></p>}
+      {genre && (
+        <p>
+          in genre <b>{genre}</b>
+        </p>
+      )}
       <table>
         <tbody>
           <tr>
@@ -33,7 +47,8 @@ const Books = ({ show, books }) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.filter(byGenre).map(a => (
+          {/* {books.filter(byGenre).map(a => ( */}
+          {newBooks.map(a => (
             <tr key={a.id}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -43,7 +58,11 @@ const Books = ({ show, books }) => {
         </tbody>
       </table>
       <div>
-        {genres.map(g=>(<button key={g} onClick={() => handleClick(g)}>{g}</button>))}
+        {genres.map(g => (
+          <button key={g} onClick={() => handleClick(g)}>
+            {g}
+          </button>
+        ))}
       </div>
     </div>
   )
