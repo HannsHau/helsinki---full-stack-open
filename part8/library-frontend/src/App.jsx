@@ -10,6 +10,7 @@ import Recommend from './components/Recommend'
 import NewBook from './components/NewBook'
 import Notify from './components/Notify'
 import LoginForm from './components/LoginForm'
+import { addBookToCache } from './utils/apolloCache'
 
 import { BOOK_ADDED, READ_ALL } from './queries'
 
@@ -18,27 +19,30 @@ const App = () => {
   const [page, setPage] = useState('authors')
   
   const [errorMessage, setErrorMessage] = useState(null)
+  
   const result = useQuery(READ_ALL)
   const client = useApolloClient()
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data }) => {
       const book = data.data.bookAdded
-      const alert = `a new book was edited: ${book.title}`
-      window.alert(alert)
+      notify(`${book.title} added`)
+      addBookToCache(client.cache, book)
     }
   })
-
-  if (result.loading) {
-    return <div>loading...</div>
-  }
-
+  
   const notify = message => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
     }, 10000)
   }
+
+  if (result.loading) {
+    return <div>loading...</div>
+  }
+
+
 
   const onLogout = () => {
     setToken(null)
