@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const User = require('./models/user')
 const Book = require('./models/book')
 const Author = require('./models/author')
+const author = require('./models/author')
 
 const pubsub = new PubSub()
 
@@ -28,24 +29,21 @@ const resolvers = {
 
       return Book.find(filter).populate('author')
     },
-    allAuthors: async (root, args) => Author.find({}),
+    allAuthors: async (root, args) => {
+      return Author.find({}).populate('bookCount')
+    },
     me: (root, args, context) => {
       return context.currentUser
     }
   },
   Author: {
-    bookCount: async ({ name }) => {
-      const authorFound = await Author.findOne({ name: name })
+    bookCount: async (root) => {
+      
+      const books = await Book.find({
+        author: { $in: [root._id] }
+      })
 
-      const filter = {}
-      if (authorFound) {
-        filter.author = authorFound._id
-      } else {
-        return []
-      }
-
-      const found = await Book.find(filter)
-      return found.length
+      return books.length
     }
   },
   Mutation: {
