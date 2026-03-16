@@ -1,4 +1,4 @@
-type Rating = 1 | 2 | 3
+type Rating = 1 | 2 | 3;
 
 interface Result {
   periodLength: number
