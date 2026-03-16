@@ -1,8 +1,11 @@
 import express from 'express';
-import { isNotNumber } from './utils';
+import { restValuesAreNum, isNotNumber } from './utils'
 import { calculateBmi } from './bmiCalculator';
+import { calculateExercises } from './exerciseCalculator';
 
 const app = express();
+
+app.use(express.json())
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
@@ -17,6 +20,23 @@ app.get('/bmi', (req, res) => {
   const weight = Number(req.query.weight);
 
   res.send(calculateBmi(height, weight));
+});
+
+app.post('/exercises', (req, res) => {
+
+  const { daily_exercises, target } = req.body;
+
+  if (target === undefined || target === null 
+      || daily_exercises === undefined || daily_exercises === null) {
+    res.send({ error: 'parameters missing' });
+    return;
+  }
+
+  if (isNotNumber(target) || !restValuesAreNum(daily_exercises)) {
+    res.send({ error: 'malformatted parameters' });
+  }
+
+  res.send(calculateExercises(daily_exercises, target));
 });
 
 const PORT = 3003;

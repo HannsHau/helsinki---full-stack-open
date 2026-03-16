@@ -1,3 +1,5 @@
+import { restValuesAreNum, isNotNumber } from './utils'
+
 type Rating = 1 | 2 | 3;
 
 export interface Result {
@@ -15,15 +17,12 @@ interface ExerciseValue {
   target: number
 }
 
-const restValuesAreNum = (values: string[]) : boolean => {
-  const result = values.reduce((acc, cur) => acc && !isNaN(Number(cur)) , true);
-  return result;
-};
+
 
 const parseArgumentsExercise = (args: string[]): ExerciseValue => {
   if (args.length < 4) throw new Error('Not enough arguments');
 
-  if (!isNaN(Number(args[2])) && restValuesAreNum(args.slice(3))) {
+  if (!isNotNumber(args[2]) && restValuesAreNum(args.slice(3))) {
     const hours = args.slice(3).map(v => Number(v));
     const target = Number(args[2]);
     return {
@@ -50,7 +49,7 @@ const getRating = (average: number, target: number): Rating => {
 const getRatingText = (rating: Rating): string => {
   switch (rating) {
     case 3:
-      return 'failed, put more efford in';
+      return 'bad';
     case 2:
       return 'not too bad but could be better';
     case 1:
@@ -58,7 +57,7 @@ const getRatingText = (rating: Rating): string => {
   }
 };
 
-const calculateExercises = (hours: number[], target: number): Result => {
+export const calculateExercises = (hours: number[], target: number): Result => {
   const periodLength: number = hours.length;
   const trainingDays: number = hours.filter(h => h > 0).length;
   const average: number =
