@@ -3,6 +3,12 @@ interface BmiValue {
   weight: number;
 }
 
+interface ApiResult {
+  height: number;
+  weight: number;
+  bmi: string;
+}
+
 const parseArguments = (args: string[]): BmiValue => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 4) throw new Error('Too many arguments');
@@ -17,16 +23,28 @@ const parseArguments = (args: string[]): BmiValue => {
   }
 }
 
-const calculateBmi = (height: Number, weight: Number ) : String => {
+export const calculateBmi = (height: number, weight: number ) : String | ApiResult => {
 
-  const bmi = Number(weight) / (Number(height)/100 * Number(height)/100)
+  //const bmi = Number(weight) / (Number(height)/100 * Number(height)/100)
+  const bmi = weight / (height/100 * height/100)
 
-  console.log('bmi: ', bmi)
 
-  if (bmi < 18.5) return 'Underweight'
-  if (bmi >= 18.5 && bmi < 25) return 'Normal Range'
-  if (bmi >= 25 && bmi <= 30) return 'Overweight'
-  if (bmi >= 30) return 'Obese'
+  let bmiResult;
+  if (bmi < 18.5) {
+    bmiResult = 'Underweight' 
+  } else if (bmi >= 18.5 && bmi < 25) {
+    bmiResult='Normal Range'
+  } else if (bmi >= 25 && bmi <= 30) {
+    bmiResult='Overweight'
+  } else {
+    bmiResult='Obese'
+  }
+
+  if (require.main === module) {
+    return bmiResult
+  } 
+
+  return { height, weight, bmi: bmiResult}
 }
 
 //console.log(calculateBmi(177, 78))
@@ -40,3 +58,5 @@ try {
   }
   console.log(errorMessage);
 }
+
+export default "this is the default..."

@@ -1,6 +1,6 @@
 type Rating = 1 | 2 | 3;
 
-interface Result {
+export interface Result {
   periodLength: number
   trainingDays: number
   success: boolean
