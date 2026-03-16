@@ -1,5 +1,5 @@
 {
-  "name": "lecture",
+  "name": "exercises",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -8,8 +8,7 @@
   "main": "index.js",
   "scripts": {
     "ts-node": "ts-node",
-    "multiply": "ts-node multiplier.ts",
-    "calculate": "ts-node calculator.ts"
+    "bmi": "ts-node bmiCalculator.ts"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
