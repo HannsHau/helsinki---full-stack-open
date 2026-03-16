@@ -1,4 +1,4 @@
-import { restValuesAreNum, isNotNumber } from './utils'
+import { restValuesAreNum, isNotNumber } from './utils';
 
 type Rating = 1 | 2 | 3;
 

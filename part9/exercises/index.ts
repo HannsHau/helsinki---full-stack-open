@@ -1,11 +1,11 @@
 import express from 'express';
-import { restValuesAreNum, isNotNumber } from './utils'
+import { restValuesAreNum, isNotNumber } from './utils';
 import { calculateBmi } from './bmiCalculator';
 import { calculateExercises } from './exerciseCalculator';
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
@@ -24,6 +24,7 @@ app.get('/bmi', (req, res) => {
 
 app.post('/exercises', (req, res) => {
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { daily_exercises, target } = req.body;
 
   if (target === undefined || target === null 
@@ -32,10 +33,12 @@ app.post('/exercises', (req, res) => {
     return;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (isNotNumber(target) || !restValuesAreNum(daily_exercises)) {
     res.send({ error: 'malformatted parameters' });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   res.send(calculateExercises(daily_exercises, target));
 });
 
