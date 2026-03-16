@@ -1,4 +1,4 @@
-export const isNotNumber = (argument: any): boolean =>
+export const isNotNumber = (argument: unknown): boolean =>
   isNaN(Number(argument));
 
-export default "this is the default..."
+export default "this is the default...";
