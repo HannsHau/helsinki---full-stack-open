@@ -1,0 +1,16 @@
+{
+  "name": "lecture",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "HannsHau",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": "ts-node"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
