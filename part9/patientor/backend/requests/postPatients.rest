@@ -1,0 +1,10 @@
+post http://localhost:3001/api/patients
+Content-Type: application/json
+
+{
+  "name": "Mickie Mouse",
+  "dateOfBirth": "2026-03-18",
+  "ssn": "12225-5525-569", 
+  "gender": "other",
+  "occupation": "Cartoonista"
+}
