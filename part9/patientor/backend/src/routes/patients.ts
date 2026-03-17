@@ -11,14 +11,11 @@ router.get("/", (_req, res: Response<NonSensitivePatient[]>) => {
 });
 
 router.post("/", (req, res) => {
-  console.log("Hello!");
 
   try {
     const newPatientEntry = toNewPatientEntry(req.body);
-    console.log("newPatientEntry: ", newPatientEntry);
     const addedPatient = patientService.addPatient(newPatientEntry);
     res.json(addedPatient);
-    //res.send("jey");
   } catch (error: unknown) {
     let errorMessage = "Something went wrong :(";
     if (error instanceof Error) {
