@@ -51,6 +51,7 @@ const AddDiary = (props: { updateDiaries: (arg0: DiaryEntry) => void }) => {
         <div>
           date
           <input
+            type="date"
             value={date}
             onChange={({ target }) => setDate(target.value)}
           />
@@ -58,16 +59,62 @@ const AddDiary = (props: { updateDiaries: (arg0: DiaryEntry) => void }) => {
         <div>
           visibility
           <input
-            value={visibility}
-            onChange={({ target }) => setVisibility(target.value)}
+            type="radio"
+            name={visibility}
+            onChange={() => setVisibility("great")}
           />
+          great
+          <input
+            type="radio"
+            name={visibility}
+            onChange={() => setVisibility("good")}
+          />
+          good
+          <input
+            type="radio"
+            name={visibility}
+            onChange={() => setVisibility("ok")}
+          />
+          ok
+          <input
+            type="radio"
+            name={visibility}
+            onChange={() => setVisibility("poor")}
+          />
+          poor
         </div>
         <div>
           weather
           <input
+            type="radio"
             value={weather}
-            onChange={({ target }) => setWeather(target.value)}
+            onChange={() => setWeather("sunny")}
           />
+          sunny
+          <input
+            type="radio"
+            value={weather}
+            onChange={() => setWeather("rainy")}
+          />
+          rainy
+          <input
+            type="radio"
+            value={weather}
+            onChange={() => setWeather("cloudy")}
+          />
+          cloudy
+          <input
+            type="radio"
+            value={weather}
+            onChange={() => setWeather("stormy")}
+          />
+          stormy
+          <input
+            type="radio"
+            value={weather}
+            onChange={() => setWeather("windy")}
+          />
+          windy
         </div>
         <div>
           comment{" "}
