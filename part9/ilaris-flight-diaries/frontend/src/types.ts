@@ -1,12 +1,13 @@
 export interface DiaryProps {
-  diaries: Diary[]
+  diaries: DiaryEntry[]
 }
 
-export interface Diary {
+export interface DiaryEntry {
   id: number,
   date: string,
   weather: string,
-  visibility: string
+  visibility: string, 
+  comment: string
 }
 
-export type NewDiary = Omit<Diary, 'id'>
+export type NewDiaryEntry = Omit<DiaryEntry, 'id'>

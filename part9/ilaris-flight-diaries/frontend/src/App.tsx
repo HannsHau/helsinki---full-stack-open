@@ -1,27 +1,74 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 
-import type { Diary, DiaryProps } from "./types";
-import { getAllDiaries } from "./diaryService";
+import type { DiaryEntry, NewDiaryEntry } from "./types";
+import { getAllDiaries, createDiary } from "./diaryService";
 
-const Diary = (props: Diary) => {
+import Diaries from "./components/Diaries";
+
+const AddDiary = (props : {updateDiaries: (arg0: DiaryEntry) => void}) => {
+  const [date, setDate] = useState("");
+  const [visibility, setVisibility] = useState("");
+  const [weather, setWeather] = useState("");
+  const [comment, setComment] = useState("");
+
+  const submit = (event: SyntheticEvent) => {
+    event.preventDefault();
+
+    const diary: NewDiaryEntry = {
+      date, visibility, weather, comment
+    }
+
+    createDiary(diary)
+      .then(data => {
+        props.updateDiaries(data)
+    })
+
+    setDate('');
+    setVisibility('');
+    setWeather('');
+    setComment('');
+  };
+
   return (
-    <>
-      <h2>{props.date}</h2>
-      <li key={props.id + "_visi"}>visibility: {props.visibility}</li>
-      <li key={props.id + "_weather"}>weather: {props.weather}</li>
-      <br></br>
-    </>
+    <div>
+      <h2>Add new entry</h2>
+      <form onSubmit={submit}>
+        <div>
+          date
+          <input
+            value={date}
+            onChange={({ target }) => setDate(target.value)}
+          />
+        </div>
+        <div>
+          visibility
+          <input
+            value={visibility}
+            onChange={({ target }) => setVisibility(target.value)}
+          />
+        </div>
+        <div>
+          weather
+          <input
+            value={weather}
+            onChange={({ target }) => setWeather(target.value)}
+          />
+        </div>
+        <div>
+          comment{" "}
+          <input
+            value={comment}
+            onChange={({ target }) => setComment(target.value)}
+          />
+        </div>
+        <button type="submit">add</button>
+      </form>
+    </div>
   );
 };
 
-const Diaries = (props: DiaryProps) => {
-  return props.diaries.map((diary) => (
-    <Diary key={diary.id + "_id"} {...diary} />
-  ));
-};
-
 function App() {
-  const [diaries, setDiaries] = useState<Diary[]>([]);
+  const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
 
   useEffect(() => {
     getAllDiaries().then((data) => {
@@ -29,9 +76,13 @@ function App() {
     });
   }, []);
 
+  const updateDiaries = (diary: DiaryEntry) => {
+    setDiaries(diaries.concat(diary))
+  }
+
   return (
     <>
-      <h1>Diary Entries</h1>
+      <AddDiary updateDiaries={updateDiaries}/>
       <Diaries diaries={diaries} />
     </>
   );
