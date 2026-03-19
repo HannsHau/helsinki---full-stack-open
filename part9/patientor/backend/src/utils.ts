@@ -1,7 +1,9 @@
 import { NewPatientEntry, Gender } from "./types";
 import { z } from "zod";
 
-const entrySchema = z.object({});
+const entrySchema = z.looseObject({
+  type: z.string(),
+});
 
 const newPersonSchema = z.object({
   name: z.string(),
@@ -13,5 +15,5 @@ const newPersonSchema = z.object({
 });
 
 export const toNewPatientEntry = (object: unknown): NewPatientEntry => {
-  return newPersonSchema.parse(object);
+  return newPersonSchema.parse(object) as unknown as NewPatientEntry;
 };
