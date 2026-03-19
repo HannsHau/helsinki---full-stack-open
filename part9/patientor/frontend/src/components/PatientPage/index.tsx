@@ -1,4 +1,5 @@
 import { Patient, Gender } from "../../types";
+import { Container, Typography, Divider } from '@mui/material';
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
@@ -23,14 +24,14 @@ const getIcon = (gender: Gender) => {
 const PatientPage = ({ patient }: Props) => {
   if (!patient) return <>failed, no patient</>;
   return (
-    <>
-      <h1>
+    <Container>
+      <Typography variant="h4" style={{ marginTop: "0.5em" }}>
         {patient.name} {getIcon(patient.gender)}
-      </h1>
-
-      <p>ssh: {patient.ssn}</p>
-      <p>occupation: {patient.occupation}</p>
-    </>
+      </Typography >
+      
+      <Typography >ssn: {patient.ssn}</Typography>
+      <Typography >occupation: {patient.occupation}</Typography >
+    </Container>
   );
 };
 
