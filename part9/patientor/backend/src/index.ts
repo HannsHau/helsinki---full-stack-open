@@ -6,6 +6,15 @@ import patientRouter from "./routes/patients";
 const app = express();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "vscode-restclient://",
+    ],
+    credentials: true,
+  }),
+);
 
 const PORT = 3001;
 
@@ -17,7 +26,7 @@ app.get("/api/ping", (_req, res) => {
 app.use("/api/diagnoses", cors(), diagnosisRouter);
 app.use("/api/patients", cors(), patientRouter);
 
-app.use(cors);
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

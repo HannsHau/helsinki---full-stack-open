@@ -3,22 +3,24 @@ import { v4 as uuid } from "uuid";
 
 import { NonSensitivePatient, NewPatientEntry, Patient } from "../types";
 
-// const getPatients = (): Patient[] => {
-//   return patients;
-// };
-
 const getNonSensitivePatients = (): NonSensitivePatient[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
     id,
     name,
     dateOfBirth,
     gender,
     occupation,
+    entries
   }));
 };
 
+const getPatient = (id: string): Patient | null => {
+  const patient = patients.find(p => p.id === id);
+  if (!patient) return null;
+  return patient;
+};
+
 const addPatient = (patient: NewPatientEntry): Patient => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const id: string = uuid();
   const newPatient = {
     id,
@@ -30,5 +32,6 @@ const addPatient = (patient: NewPatientEntry): Patient => {
 
 export default {
   getNonSensitivePatients,
+  getPatient,
   addPatient,
 };
