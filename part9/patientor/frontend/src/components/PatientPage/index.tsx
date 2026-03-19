@@ -1,14 +1,28 @@
-import { Patient, Gender, Entry } from "../../types";
-import { Container, Typography, List, ListItem } from "@mui/material";
+import { useState, useEffect} from  'react';
+import { Patient, Gender, Entry, Diagnosis } from "../../types";
+import { Container, Typography, List, ListItem, ListItemText } from "@mui/material";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
+
+import diagnosisService from "../../services/diagnoses";
 
 interface EntriesProps {
   entries: Entry[];
 }
 
 const Entries = ({ entries }: EntriesProps) => {
+
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
+
+  useEffect(() => {
+    const fetchDiagnoses = async () => {
+      const diagnoses = await diagnosisService.getAll();
+      setDiagnoses(diagnoses);
+    };
+    void fetchDiagnoses();
+  }, []);
+
   return (
     <div>
       {entries.map((e) => {
@@ -19,7 +33,7 @@ const Entries = ({ entries }: EntriesProps) => {
             </Typography>
             <List>
             {e.diagnosisCodes?.map((code) => (
-              <ListItem>{code}</ListItem>
+              <ListItem><ListItemText>● {code} {diagnoses.find(d => d.code === code)?.name}</ListItemText></ListItem>
             ))}
             </List>
           </div>
