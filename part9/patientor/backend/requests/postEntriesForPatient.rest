@@ -1,0 +1,43 @@
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2026-01-02",
+  "type": "Hospital",
+  "specialist": "MD House",
+  "diagnosisCodes": ["S62.5"], 
+  "description": "headshot",
+  "discharge": {
+    "date": "2026-01-04",
+    "criteria": "hole in the brain"
+  }
+}
+
+###
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2026-03-02",
+  "type": "OccupationalHealthcare",
+  "specialist": "Dr. Snuggels",
+  "employerName": "HyPD",
+  "diagnosisCodes": ["Z57.1", "Z74.3", "M51.2"],
+  "description": "Patient mistakenly found himself in a nuclear plant waste site without protection gear.",
+  "sickLeave": {
+    "startDate": "2026-03-04",
+    "endDate": "2026-03-04"
+  }
+}
+
+###
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2026-02-02",
+  "specialist": "MD House",
+  "type": "HealthCheck",
+  "description": "Yearly control visit. Due to high cholesterol levels recommended to eat more vegetables.",
+  "healthCheckRating": 1
+}

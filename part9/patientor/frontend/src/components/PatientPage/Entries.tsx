@@ -103,9 +103,15 @@ const Entries = ({ entries }: EntriesProps) => {
     void fetchDiagnoses();
   }, []);
 
+  const byDate = (a:Entry, b:Entry) => {
+    if (a.date < b.date) return -1;
+    if (a.date > b.date) return 1;
+    return 0;
+  }
+
   return (
     <div>
-      {entries.map((e) => {
+      {entries.sort(byDate).map((e) => {
         return (
           <div key={e.id + "map"}>
             <EntryDetails entry={e} />

@@ -2,7 +2,7 @@ import express from "express";
 import { Response } from "express";
 import patientService from "../services/patientService";
 import { NonSensitivePatient , Patient} from "../types";
-import { toNewPatientEntry } from "../utils";
+import { toNewPatientEntry, toNewDiagnosisEntry } from "../utils";
 import { z } from "zod";
 
 const router = express.Router();
@@ -25,6 +25,21 @@ router.post("/", (req, res) => {
     const newPatientEntry = toNewPatientEntry(req.body);
     const addedPatient = patientService.addPatient(newPatientEntry);
     res.json(addedPatient);
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      res.status(400).send({ error: error.issues });
+    } else {
+      res.status(400).send({ error: "unknown error" });
+    }
+  }
+});
+
+router.post("/:id/entries", (req, res) => {
+  try {
+    const newDiagnosisEntry = toNewDiagnosisEntry(req.body);
+    const addedDiagnosis = patientService.addDiagnosis(req.params.id, newDiagnosisEntry);
+    res.json(addedDiagnosis);
+
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       res.status(400).send({ error: error.issues });
