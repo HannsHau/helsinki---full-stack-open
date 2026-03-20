@@ -6,6 +6,7 @@ import {
   HealthCheckEntry,
   OccupationalHealthcareEntry,
   HealthCheckRating,
+  EntryType, 
 } from "../../types";
 import { Typography, List, ListItem, ListItemText, Box } from "@mui/material";
 import { green, yellow, orange, red } from "@mui/material/colors";
@@ -74,13 +75,13 @@ interface EntryProps {
 
 const EntryDetails = ({ entry }: EntryProps) => {
   switch (entry.type) {
-    case "Hospital":
+    case EntryType.Hospital:
       return <Hospital {...entry} />;
       break;
-    case "OccupationalHealthcare":
+    case EntryType.OccupationalHealthcare:
       return <OccupationalHealthcare {...entry} />;
       break;
-    case "HealthCheck":
+    case EntryType.HealthCheck:
       return <HealthCheck {...entry} />;
       break;
     default:
