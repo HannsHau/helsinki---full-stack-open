@@ -27,7 +27,7 @@ services:
       - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 8080:80
-    container_name: todo-reverse-proxy
+    container_name: patientor-reverse-proxy-dev
     depends_on:
       - app
       - server
